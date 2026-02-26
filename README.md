@@ -2,7 +2,7 @@
   <img src=".github/logo.png" alt="Embark" width="300" />
 </p>
 
-<p align="center">
+<p  align="center">
   Ship <strong>vibe-coded apps</strong> with zero-config CI/CD, Docker, and Cloud Run, Netlify or another of your choice deployment.
 </p>
 
@@ -207,3 +207,4 @@ commit → push to main
   <img src=".github/logo.png" alt="Embark" width="64" style="display:block;margin:0.5rem auto 0.5rem;" />
   Made with vibes by <a href="https://github.com/blpsoares">@blpsoares</a>
 </p>
+teste
