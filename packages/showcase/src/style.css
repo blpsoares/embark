@@ -1224,25 +1224,7 @@ code {
 }
 
 .carousel-nav {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  /* make the button visually minimal (no square background) */
-  width: auto;
-  height: auto;
-  padding: 8px 12px;
-  border-radius: 0;
-  background: transparent;
-  border: none;
-  color: var(--accent);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: transform 0.18s ease, filter 0.18s ease, opacity 0.18s ease;
-  z-index: 20;
-  box-shadow: none;
-  overflow: visible;
+  display: none;
 }
 
 .carousel-nav svg {
@@ -1274,16 +1256,7 @@ code {
 }
 
 .carousel-indicators {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 3.5rem;
-  padding: 0.5rem 0;
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  backdrop-filter: none;
-  position: relative;
+  display: none;
 }
 
 
