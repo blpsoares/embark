@@ -459,10 +459,10 @@ code {
   left: 0;
   height: 4px;
   width: 0%;
-  background: linear-gradient(90deg, #818cf8, #06b6d4, #22d3ee);
+  background: var(--gradient-glow);
   z-index: 9999;
   transition: width 0.1s linear;
-  box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
+  box-shadow: 0 0 10px rgba(129, 140, 248, 0.5), 0 0 20px rgba(236, 72, 153, 0.3);
 }
 
 /* Custom Cursor */
