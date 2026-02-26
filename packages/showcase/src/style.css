@@ -171,6 +171,8 @@ code {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 0;
+  color: transparent;
 }
 
 .nav-logo::before {
@@ -2043,12 +2045,12 @@ code {
 }
 
 .footer-logo-img {
-  height: 160px;
+  height: 100px;
   width: auto;
   object-fit: contain;
   display: block;
-  margin: 0 auto 2rem;
-  filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.5));
+  margin: 0 auto 1.5rem;
+  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.4));
 }
 
 .footer-brand p {
