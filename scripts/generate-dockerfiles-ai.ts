@@ -2,6 +2,7 @@ import { readdir, readFile, writeFile, access } from "node:fs/promises";
 import { execSync, spawn } from "node:child_process";
 import { join } from "node:path";
 import { isExternalDeploy } from "./embark-config";
+import * as readline from "node:readline";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -113,11 +114,18 @@ function createSpinner(message: string) {
 
 // ── fixed interactive menu ─────────────────────────────────
 async function readKey(): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
+    if (typeof process.stdin.setRawMode !== "function" || !process.stdin.isTTY) {
+      reject(new Error("raw mode unavailable"));
+      return;
+    }
+
     process.stdin.setRawMode(true);
     process.stdin.resume();
     process.stdin.once("data", (data) => {
-      process.stdin.setRawMode(false);
+      try {
+        process.stdin.setRawMode(false);
+      } catch {}
       process.stdin.pause();
       resolve(data.toString());
     });
@@ -143,6 +151,30 @@ function renderMenu(title: string, options: string[], index: number, totalLines:
 }
 
 async function menuSelect(title: string, options: string[]): Promise<number | null> {
+  // If raw mode isn't available (e.g., non-TTY or some CI/hook environments),
+  // fall back to a numbered prompt using readline.
+  if (typeof process.stdin.setRawMode !== "function" || !process.stdin.isTTY) {
+    // Simple numbered selection
+    write(`${title}\n`);
+    for (let i = 0; i < options.length; i++) {
+      write(`  ${i + 1}. ${options[i]}\n`);
+    }
+    write(`\n`);
+
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    return new Promise((resolve) => {
+      rl.question(`Choose [1-${options.length}] (default 1): `, (answer) => {
+        rl.close();
+        const n = parseInt(answer.trim(), 10);
+        if (Number.isFinite(n) && n >= 1 && n <= options.length) {
+          resolve(n - 1);
+        } else {
+          resolve(0);
+        }
+      });
+    });
+  }
+
   const totalLines = options.length + 3;
 
   write(CURSOR.hide);
@@ -162,7 +194,25 @@ async function menuSelect(title: string, options: string[]): Promise<number | nu
   }
 
   while (true) {
-    const key = await readKey();
+    let key: string;
+    try {
+      key = await readKey();
+    } catch (err) {
+      // If raw mode failed mid-loop, fall back to numeric prompt
+      write(CURSOR.show);
+      const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+      return new Promise((resolve) => {
+        rl.question(`Choose [1-${options.length}] (default 1): `, (answer) => {
+          rl.close();
+          const n = parseInt(answer.trim(), 10);
+          if (Number.isFinite(n) && n >= 1 && n <= options.length) {
+            resolve(n - 1);
+          } else {
+            resolve(0);
+          }
+        });
+      });
+    }
 
     if (key === "\x1b[A") {
       index = (index - 1 + options.length) % options.length;

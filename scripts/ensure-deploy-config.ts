@@ -5,6 +5,7 @@ import { join } from "node:path";
 import * as readline from "node:readline";
 import { hasEmbarkConfig } from "./embark-config";
 import type { DeployTarget } from "./embark-config";
+import { processPackageDockerfile } from "./generate-dockerfiles";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -33,6 +34,17 @@ async function askDeployTarget(packageName: string): Promise<DeployTarget> {
         else resolve("cloud-run");
       },
     );
+  });
+}
+
+async function askYesNo(question: string): Promise<boolean> {
+  const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+  return new Promise((resolve) => {
+    rl.question(`${question} [y/N]: `, (answer) => {
+      rl.close();
+      const a = answer.trim().toLowerCase();
+      resolve(a === "y" || a === "yes");
+    });
   });
 }
 
@@ -80,6 +92,20 @@ async function ensureDeployConfig() {
       const netlifyToml = buildNetlifyToml("bun run build", "dist");
       await writeFile(join(packageDir, "netlify.toml"), netlifyToml);
       console.log(`  ✓ Created netlify.toml for ${packageName}`);
+      // Ask whether to generate a Dockerfile for Netlify/Other targets
+      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package?");
+      if (wantsDocker) {
+        const created = await processPackageDockerfile(packageName, packageDir);
+        if (created) console.log(`  ✓ Dockerfile generated for ${packageName}`);
+      }
+    }
+
+    if (target === "other") {
+      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package?");
+      if (wantsDocker) {
+        const created = await processPackageDockerfile(packageName, packageDir);
+        if (created) console.log(`  ✓ Dockerfile generated for ${packageName}`);
+      }
     }
 
     hasChanges = true;
