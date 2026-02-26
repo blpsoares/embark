@@ -10,9 +10,7 @@
     "test": "bun test --coverage scripts/__tests__",
     "new-package": "bun scripts/create-package.ts",
     "new-dockerfile": "bun scripts/generate-dockerfiles-ai.ts",
-    "sync-workflows": "bun scripts/sync-workflows.ts",
-    "update-version-badge": "bun run scripts/update-version-badge.ts",
-    "postversion": "bun run update-version-badge"
+    "sync-workflows": "bun scripts/sync-workflows.ts"
   },
   "devDependencies": {
     "@types/bun": "^1.3.9",

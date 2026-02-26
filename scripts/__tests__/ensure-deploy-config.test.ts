@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from "bun:test";
-import { mkdir, writeFile, readFile } from "node:fs/promises";
-import { rmSync, existsSync } from "node:fs";
+import { mkdir, writeFile } from "node:fs/promises";
+import { rmSync } from "node:fs";
 import { join } from "node:path";
 import { getPackagesWithoutConfig } from "../ensure-deploy-config";
 

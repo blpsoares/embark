@@ -2,6 +2,14 @@ type Language = "en" | "pt";
 
 const translations: Record<Language, Record<string, string>> = {
   en: {
+    // Navigation
+    "nav.logo": "Embark",
+    "nav.useCases": "Use Cases",
+    "nav.why": "Why Embark",
+    "nav.how": "How It Works",
+    "nav.features": "Features",
+    "nav.start": "Get Started",
+
     // Hero
     "hero.tagline": "Ship vibe-coded apps with zero config.",
     "hero.sub": "Auto CI/CD &middot; Auto Docker &middot; AI-powered &middot; Cloud Run &middot; Netlify",
@@ -124,6 +132,14 @@ const translations: Record<Language, Record<string, string>> = {
   },
 
   pt: {
+    // Navigation
+    "nav.logo": "Embark",
+    "nav.useCases": "Use Cases",
+    "nav.why": "Por que Embark",
+    "nav.how": "Como Funciona",
+    "nav.features": "Funcionalidades",
+    "nav.start": "Começar",
+
     // Hero
     "hero.tagline": "Publique apps vibe-coded com zero config.",
     "hero.sub": "CI/CD auto &middot; Docker auto &middot; IA integrada &middot; Cloud Run &middot; Netlify",

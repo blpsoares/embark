@@ -3,6 +3,8 @@ import { execSync, spawn } from "node:child_process";
 import { join } from "node:path";
 import { isExternalDeploy } from "./embark-config";
 import * as readline from "node:readline";
+import * as fs from "node:fs";
+import * as tty from "node:tty";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -83,7 +85,27 @@ function isCliAvailable(command: string): boolean {
 }
 
 function write(text: string) {
+  if (TTY_OUT) {
+    TTY_OUT.write(text);
+    return;
+  }
   process.stdout.write(text);
+}
+
+let TTY_IN: tty.ReadStream | null = null;
+let TTY_OUT: fs.WriteStream | null = null;
+
+function tryInitTty() {
+  if (TTY_IN && TTY_OUT) return;
+  try {
+    const fd = fs.openSync("/dev/tty", "r+");
+    const inStream = new tty.ReadStream(fd);
+    const outStream = fs.createWriteStream(null as any, { fd });
+    TTY_IN = inStream;
+    TTY_OUT = outStream;
+  } catch {
+    // ignore
+  }
 }
 
 // ── spinner with status ────────────────────────────────────
@@ -115,20 +137,41 @@ function createSpinner(message: string) {
 // ── fixed interactive menu ─────────────────────────────────
 async function readKey(): Promise<string> {
   return new Promise((resolve, reject) => {
-    if (typeof process.stdin.setRawMode !== "function" || !process.stdin.isTTY) {
-      reject(new Error("raw mode unavailable"));
+    // Prefer using the process stdin when it's a TTY
+    if (typeof process.stdin.setRawMode === "function" && process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.once("data", (data) => {
+        try {
+          process.stdin.setRawMode(false);
+        } catch {}
+        process.stdin.pause();
+        resolve(data.toString());
+      });
       return;
     }
 
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-    process.stdin.once("data", (data) => {
+    // Try to open /dev/tty for interactive input (works in many hook environments)
+    tryInitTty();
+    if (TTY_IN) {
+      const inStream = TTY_IN;
       try {
-        process.stdin.setRawMode(false);
+        inStream.setRawMode(true);
       } catch {}
-      process.stdin.pause();
-      resolve(data.toString());
-    });
+      inStream.resume();
+      const onData = (data: Buffer) => {
+        try {
+          inStream.setRawMode(false);
+        } catch {}
+        inStream.pause();
+        inStream.removeListener("data", onData);
+        resolve(data.toString());
+      };
+      inStream.on("data", onData);
+      return;
+    }
+
+    reject(new Error("raw mode unavailable"));
   });
 }
 

@@ -1,18 +1,16 @@
-import { readFile, access } from "node:fs/promises";
+import { access, readFile } from "node:fs/promises";
 import { join } from "node:path";
+import type { DeployTarget, EmbarkConfig } from "../shared/types/deploy";
 
-export type DeployTarget = "cloud-run" | "netlify" | "other";
-
-interface EmbarkConfig {
-  deploy?: DeployTarget;
-}
+export type { DeployTarget, EmbarkConfig };
 
 export async function readEmbarkConfig(packageDir: string): Promise<EmbarkConfig | null> {
   const configPath = join(packageDir, ".embark.json");
   try {
     await access(configPath);
     const content = await readFile(configPath, "utf-8");
-    return JSON.parse(content) as EmbarkConfig;
+    const config = JSON.parse(content) as EmbarkConfig;
+    return config;
   } catch {
     return null;
   }

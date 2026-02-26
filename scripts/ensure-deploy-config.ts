@@ -4,7 +4,7 @@ import { execSync } from "node:child_process";
 import { join } from "node:path";
 import * as readline from "node:readline";
 import { hasEmbarkConfig } from "./embark-config";
-import type { DeployTarget } from "./embark-config";
+import type { DeployTarget } from "../shared/types/deploy";
 import { processPackageDockerfile } from "./generate-dockerfiles";
 
 const ROOT = join(import.meta.dirname, "..");
@@ -93,7 +93,7 @@ async function ensureDeployConfig() {
       await writeFile(join(packageDir, "netlify.toml"), netlifyToml);
       console.log(`  ✓ Created netlify.toml for ${packageName}`);
       // Ask whether to generate a Dockerfile for Netlify/Other targets
-      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package?");
+      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
       if (wantsDocker) {
         const created = await processPackageDockerfile(packageName, packageDir);
         if (created) console.log(`  ✓ Dockerfile generated for ${packageName}`);
@@ -101,7 +101,16 @@ async function ensureDeployConfig() {
     }
 
     if (target === "other") {
-      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package?");
+      console.log(`  ℹ Note: Your deploy platform may require a Dockerfile or workflow. Please configure manually.`);
+      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
+      if (wantsDocker) {
+        const created = await processPackageDockerfile(packageName, packageDir);
+        if (created) console.log(`  ✓ Dockerfile generated for ${packageName}`);
+      }
+    }
+
+    if (target === "cloud-run") {
+      const wantsDocker = await askYesNo("  Generate a Dockerfile? (recommended for Cloud Run)");
       if (wantsDocker) {
         const created = await processPackageDockerfile(packageName, packageDir);
         if (created) console.log(`  ✓ Dockerfile generated for ${packageName}`);
@@ -115,6 +124,7 @@ async function ensureDeployConfig() {
     try {
       execSync("git add packages/*/.embark.json", { cwd: ROOT, stdio: "ignore" });
       execSync("git add packages/*/netlify.toml", { cwd: ROOT, stdio: "ignore" });
+      execSync("git add packages/*/Dockerfile", { cwd: ROOT, stdio: "ignore" });
     } catch {
       // Some globs may not match, that's ok
     }

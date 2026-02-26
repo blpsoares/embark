@@ -1,5 +1,6 @@
 import "./style.css";
 import { initI18n } from "./i18n";
+import { initNav } from "./nav";
 import { initHero } from "./hero";
 import { initStats } from "./stats";
 import { initTerminal } from "./terminal";
@@ -14,6 +15,7 @@ import { initScrollProgress } from "./scrollProgress";
 import { initCarousel } from "./carousel";
 
 initI18n();
+initNav();
 initScrollProgress();
 initCursor();
 initHero();
