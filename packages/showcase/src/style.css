@@ -1697,6 +1697,19 @@ code {
   font-style: italic;
 }
 
+@media (max-width: 768px) {
+  .file-tree {
+    padding: 1.5rem 1rem;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    overflow-x: hidden;
+    overflow-y: auto;
+    max-height: 400px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+  }
+}
+
 /* ── Use Cases ── */
 #use-cases {
   padding: 8rem 2rem;
