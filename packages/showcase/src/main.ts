@@ -11,6 +11,7 @@ import { initControlCards } from "./controlCards";
 import { initGetStarted } from "./getStarted";
 import { initCursor } from "./cursor";
 import { initScrollProgress } from "./scrollProgress";
+import { initCarousel } from "./carousel";
 
 initI18n();
 initScrollProgress();
@@ -20,6 +21,7 @@ initStats();
 initTerminal();
 initPipeline();
 initFeatures();
+initCarousel();
 initArchitecture();
 initStackCards();
 initControlCards();

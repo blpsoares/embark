@@ -250,46 +250,66 @@
       </div>
     </section>
 
-    <!-- Features -->
+    <!-- Features Carousel -->
     <section id="features">
       <h2 class="section-title" data-i18n="features.title">Features</h2>
       <p class="section-subtitle" data-i18n="features.subtitle">Everything you need to ship fast, nothing you don't.</p>
-      <div class="features-grid">
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">⚡</div>
-          <h3 data-i18n="features.bun.title">Bun All The Way</h3>
-          <p data-i18n="features.bun.desc">One runtime for everything — scripts, tests, builds, package management. No Node, no npm, no webpack. Just Bun.</p>
+
+      <div class="carousel-container">
+        <div class="carousel-viewport">
+          <div class="carousel-track" id="featureCarousel">
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">⚡</div>
+              <h3 data-i18n="features.bun.title">Bun All The Way</h3>
+              <p data-i18n="features.bun.desc">One runtime for everything — scripts, tests, builds, package management. No Node, no npm, no webpack. Just Bun.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">🤖</div>
+              <h3 data-i18n="features.ai.title">AI-Assisted Setup</h3>
+              <p data-i18n="features.ai.desc">Plug in your favorite AI CLI — Gemini, Claude, Copilot, or Codex — and get Dockerfiles tailored to your app's stack.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">🎯</div>
+              <h3 data-i18n="features.deploy.title">Selective Deploy</h3>
+              <p data-i18n="features.deploy.desc">Change one package, deploy one package. Path-filtered CI/CD means no wasted builds, no unnecessary downtime.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">🧪</div>
+              <h3 data-i18n="features.quality.title">Quality Gates</h3>
+              <p data-i18n="features.quality.desc">Pre-push hooks enforce 77% coverage. You can't ship broken code — the framework literally won't let you.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">📦</div>
+              <h3 data-i18n="features.scaffold.title">Instant Scaffolding</h3>
+              <p data-i18n="features.scaffold.desc">One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">🌐</div>
+              <h3 data-i18n="features.netlify.title">Netlify Ready</h3>
+              <p data-i18n="features.netlify.desc">Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.</p>
+            </div>
+            <div class="feature-card carousel-slide">
+              <div class="feature-icon">🔌</div>
+              <h3 data-i18n="features.other.title">Bring Your Own Infra</h3>
+              <p data-i18n="features.other.desc">Deploy to Vercel, Fly.io, AWS, or anywhere else. Set deploy to "other" and Embark skips workflows and Dockerfiles — you handle the rest.</p>
+            </div>
+          </div>
         </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🤖</div>
-          <h3 data-i18n="features.ai.title">AI-Assisted Setup</h3>
-          <p data-i18n="features.ai.desc">Plug in your favorite AI CLI — Gemini, Claude, Copilot, or Codex — and get Dockerfiles tailored to your app's stack.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🎯</div>
-          <h3 data-i18n="features.deploy.title">Selective Deploy</h3>
-          <p data-i18n="features.deploy.desc">Change one package, deploy one package. Path-filtered CI/CD means no wasted builds, no unnecessary downtime.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🧪</div>
-          <h3 data-i18n="features.quality.title">Quality Gates</h3>
-          <p data-i18n="features.quality.desc">Pre-push hooks enforce 77% coverage. You can't ship broken code — the framework literally won't let you.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">📦</div>
-          <h3 data-i18n="features.scaffold.title">Instant Scaffolding</h3>
-          <p data-i18n="features.scaffold.desc">One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🌐</div>
-          <h3 data-i18n="features.netlify.title">Netlify Ready</h3>
-          <p data-i18n="features.netlify.desc">Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🔌</div>
-          <h3 data-i18n="features.other.title">Bring Your Own Infra</h3>
-          <p data-i18n="features.other.desc">Deploy to Vercel, Fly.io, AWS, or anywhere else. Set deploy to "other" and Embark skips workflows and Dockerfiles — you handle the rest.</p>
-        </div>
+
+        <!-- Navigation -->
+        <button class="carousel-nav carousel-prev" aria-label="Previous features">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="carousel-nav carousel-next" aria-label="Next features">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Indicators -->
+        <div class="carousel-indicators" id="featureIndicators"></div>
       </div>
     </section>
 
