@@ -53,6 +53,67 @@ code {
   color: var(--neon-cyan);
 }
 
+/* Language Toggle */
+#lang-toggle {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9997;
+  display: flex;
+  gap: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--glass-border);
+  border-radius: 50px;
+  padding: 4px;
+  backdrop-filter: blur(16px);
+}
+
+.lang-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.lang-btn.active {
+  background: rgba(129, 140, 248, 0.2);
+  box-shadow: 0 0 16px rgba(129, 140, 248, 0.15);
+}
+
+.lang-btn:hover:not(.active) {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.lang-flag {
+  font-size: 1.3rem;
+  line-height: 1;
+  pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  #lang-toggle {
+    top: 1rem;
+    right: 1rem;
+  }
+
+  .lang-btn {
+    width: 36px;
+    height: 36px;
+    cursor: auto;
+  }
+
+  .lang-flag {
+    font-size: 1.15rem;
+  }
+}
+
 /* Scroll Progress */
 #scroll-progress {
   position: fixed;

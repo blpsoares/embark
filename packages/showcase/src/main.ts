@@ -1,4 +1,5 @@
 import "./style.css";
+import { initI18n } from "./i18n";
 import { initHero } from "./hero";
 import { initStats } from "./stats";
 import { initTerminal } from "./terminal";
@@ -10,6 +11,7 @@ import { initGetStarted } from "./getStarted";
 import { initCursor } from "./cursor";
 import { initScrollProgress } from "./scrollProgress";
 
+initI18n();
 initScrollProgress();
 initCursor();
 initHero();
