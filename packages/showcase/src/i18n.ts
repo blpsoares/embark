@@ -251,8 +251,8 @@ const STORAGE_KEY = "embark-lang";
 function getStoredLanguage(): Language {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === "pt" || stored === "en") return stored;
-  const browserLang = navigator.language.toLowerCase();
-  return browserLang.startsWith("pt") ? "pt" : "en";
+  // Default to English unless user explicitly stored Portuguese
+  return "en";
 }
 
 function applyTranslations(lang: Language) {

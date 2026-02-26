@@ -3,20 +3,17 @@
 </p>
 
 <p align="center">
-  Ship <strong>vibe-coded apps</strong> with zero-config CI/CD, Docker, and Cloud Run deployment.
+  Ship <strong>vibe-coded apps</strong> with zero-config CI/CD, Docker, and Cloud Run, Netlify or another of your choice deployment.
 </p>
+
 
 <p align="center">
-  <!-- VERSION:START -->
-![version](https://img.shields.io/badge/version-1.0.0-818cf8?style=for-the-badge)
-<!-- VERSION:END -->
-  ![bun](https://img.shields.io/badge/Bun-1.3.9-f9f1e1?style=for-the-badge&logo=bun&logoColor=black)
-  ![typescript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=for-the-badge&logo=typescript&logoColor=white)
-  ![license](https://img.shields.io/badge/license-MIT-22d3ee?style=for-the-badge)
-  ![tests](https://img.shields.io/badge/tests-117%20passing-28c840?style=for-the-badge)
-  ![coverage](https://img.shields.io/badge/coverage-77%25-a78bfa?style=for-the-badge)
+  <img src="https://img.shields.io/badge/version-1.0.0-818cf8?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Bun-1.3.9-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun" />
+  <img src="https://img.shields.io/badge/TypeScript-Strict-3178c6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/tests-117%20passing-brightgreen?style=for-the-badge" alt="Tests pass" />
+  <img src="https://img.shields.io/badge/coverage-77%25-yellow?style=for-the-badge" alt="Coverage" />
 </p>
-
 ---
 
 ## What is Embark?
@@ -207,5 +204,6 @@ commit → push to main
 ---
 
 <p align="center">
+  <img src=".github/logo.png" alt="Embark" width="64" style="display:block;margin:0.5rem auto 0.5rem;" />
   Made with vibes by <a href="https://github.com/blpsoares">@blpsoares</a>
 </p>
