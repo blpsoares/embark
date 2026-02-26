@@ -2045,7 +2045,7 @@ code {
 }
 
 .footer-logo-img {
-  height: 100px;
+  height: 300px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -2064,6 +2064,8 @@ code {
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   margin-bottom: 3rem;
+  justify-items: center;
+  text-align: center;
 }
 
 @media (max-width: 600px) {
