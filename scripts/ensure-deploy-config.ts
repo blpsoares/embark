@@ -174,6 +174,17 @@ async function askYesNo(question: string): Promise<boolean> {
   return selected === 0;
 }
 
+async function askDockerfileMethod(): Promise<"ai" | "default" | null> {
+  const selected = await menuSelect("How do you want to generate the Dockerfile?", [
+    "Yes, choose which AI to use",
+    "No, generate default Dockerfile",
+  ]);
+
+  if (selected === 0) return "ai";
+  if (selected === 1) return "default";
+  return null;
+}
+
 function buildNetlifyToml(buildCommand: string, publishDir: string): string {
   return `[build]
   command = "${buildCommand}"
@@ -243,8 +254,13 @@ ${JSON.stringify(config, null, 2)}
 
       const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
       if (wantsDocker) {
-        const created = await processPackageDockerfile(packageName, packageDir);
-        if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        const method = await askDockerfileMethod();
+        if (method === "default") {
+          const created = await processPackageDockerfile(packageName, packageDir);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        } else if (method === "ai") {
+          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+        }
       }
     }
 
@@ -259,8 +275,13 @@ ${JSON.stringify(config, null, 2)}
 
       const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
       if (wantsDocker) {
-        const created = await processPackageDockerfile(packageName, packageDir);
-        if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        const method = await askDockerfileMethod();
+        if (method === "default") {
+          const created = await processPackageDockerfile(packageName, packageDir);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        } else if (method === "ai") {
+          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+        }
       }
     }
 
@@ -272,8 +293,13 @@ ${JSON.stringify(config, null, 2)}
 
       const wantsDocker = await askYesNo("  Generate a Dockerfile? (recommended for Cloud Run)");
       if (wantsDocker) {
-        const created = await processPackageDockerfile(packageName, packageDir);
-        if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        const method = await askDockerfileMethod();
+        if (method === "default") {
+          const created = await processPackageDockerfile(packageName, packageDir);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+        } else if (method === "ai") {
+          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+        }
       }
     }
 
