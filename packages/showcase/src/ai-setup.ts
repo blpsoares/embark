@@ -13,7 +13,7 @@ export function initAiSetup() {
         }
       }
     },
-    { threshold: 0.5 }
+    { threshold: 0.1 }
   );
 
   observer.observe(section);

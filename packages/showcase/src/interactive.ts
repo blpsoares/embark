@@ -48,7 +48,7 @@ export function initInteractive() {
         }
       }
     },
-    { threshold: 0.5 }
+    { threshold: 0.1 }
   );
 
   observer.observe(section);
@@ -104,52 +104,108 @@ async function startSimulation() {
         optionLines[i]!.element = div;
       });
 
-      // Add navigation instructions
-      const instructionsDiv = document.createElement("div");
-      instructionsDiv.className = "terminal-line output info";
-      instructionsDiv.innerHTML = `<span>↑/↓ navigate  │  Enter select</span>`;
-      terminal.appendChild(instructionsDiv);
-      instructionsDiv.classList.add("visible");
+      // Detect mobile
+      const isMobile = window.innerWidth <= 768;
+
+      if (isMobile) {
+        // Mobile: Add clickable buttons
+        const buttonsContainer = document.createElement("div");
+        buttonsContainer.className = "terminal-line output info mobile-options";
+        buttonsContainer.style.display = "flex";
+        buttonsContainer.style.flexDirection = "column";
+        buttonsContainer.style.gap = "0.5rem";
+        buttonsContainer.style.marginTop = "0.5rem";
+
+        options.forEach((opt, i) => {
+          const btn = document.createElement("button");
+          btn.className = "terminal-mobile-btn";
+          btn.innerHTML = `${i + 1}. ${escapeHtml(opt)}`;
+          btn.style.padding = "0.75rem";
+          btn.style.background = "rgba(34, 211, 238, 0.1)";
+          btn.style.border = "1px solid rgba(34, 211, 238, 0.3)";
+          btn.style.color = "var(--text-secondary)";
+          btn.style.borderRadius = "6px";
+          btn.style.cursor = "pointer";
+          btn.style.fontSize = "0.9rem";
+          btn.style.fontFamily = "var(--font-mono)";
+          btn.style.transition = "all 0.2s ease";
+
+          btn.onmouseover = () => {
+            btn.style.background = "rgba(34, 211, 238, 0.2)";
+            btn.style.borderColor = "rgba(34, 211, 238, 0.5)";
+          };
+
+          btn.onmouseout = () => {
+            btn.style.background = "rgba(34, 211, 238, 0.1)";
+            btn.style.borderColor = "rgba(34, 211, 238, 0.3)";
+          };
+
+          btn.onclick = () => {
+            // Mark as selected
+            optionLines.forEach((line) => {
+              line.element?.classList.remove("focused");
+            });
+            optionLines[i]?.element?.classList.add("selected");
+            buttonsContainer.remove();
+
+            setTimeout(() => {
+              resolve(i);
+            }, 300);
+          };
+
+          buttonsContainer.appendChild(btn);
+        });
+
+        terminal.appendChild(buttonsContainer);
+        buttonsContainer.classList.add("visible");
+      } else {
+        // Desktop: Add navigation instructions
+        const instructionsDiv = document.createElement("div");
+        instructionsDiv.className = "terminal-line output info";
+        instructionsDiv.innerHTML = `<span>↑/↓ navigate  │  Enter select</span>`;
+        terminal.appendChild(instructionsDiv);
+        instructionsDiv.classList.add("visible");
+
+        let currentIndex = 0;
+
+        const handleKeyDown = (event: KeyboardEvent) => {
+          if (event.key === "ArrowUp" || event.key === "ArrowDown") {
+            event.preventDefault();
+            const newIndex =
+              event.key === "ArrowUp"
+                ? Math.max(0, currentIndex - 1)
+                : Math.min(options.length - 1, currentIndex + 1);
+
+            optionLines[currentIndex]?.element?.classList.remove("focused");
+            optionLines[newIndex]?.element?.classList.add("focused");
+            currentIndex = newIndex;
+
+            optionLines[newIndex]?.element?.scrollIntoView({
+              behavior: "smooth",
+              block: "nearest",
+            });
+          } else if (event.key === "Enter") {
+            event.preventDefault();
+            document.removeEventListener("keydown", handleKeyDown);
+
+            // Remove focused class and mark as selected
+            optionLines.forEach((line) => {
+              line.element?.classList.remove("focused");
+            });
+            optionLines[currentIndex]?.element?.classList.add("selected");
+
+            setTimeout(() => {
+              resolve(currentIndex);
+            }, 300);
+          }
+        };
+
+        document.addEventListener("keydown", handleKeyDown);
+      }
 
       setTimeout(() => {
         terminal.scrollTop = terminal.scrollHeight;
       }, 0);
-
-      let currentIndex = 0;
-
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (event.key === "ArrowUp" || event.key === "ArrowDown") {
-          event.preventDefault();
-          const newIndex =
-            event.key === "ArrowUp"
-              ? Math.max(0, currentIndex - 1)
-              : Math.min(options.length - 1, currentIndex + 1);
-
-          optionLines[currentIndex]?.element?.classList.remove("focused");
-          optionLines[newIndex]?.element?.classList.add("focused");
-          currentIndex = newIndex;
-
-          optionLines[newIndex]?.element?.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-          });
-        } else if (event.key === "Enter") {
-          event.preventDefault();
-          document.removeEventListener("keydown", handleKeyDown);
-
-          // Remove focused class and mark as selected
-          optionLines.forEach((line) => {
-            line.element?.classList.remove("focused");
-          });
-          optionLines[currentIndex]?.element?.classList.add("selected");
-
-          setTimeout(() => {
-            resolve(currentIndex);
-          }, 300);
-        }
-      };
-
-      document.addEventListener("keydown", handleKeyDown);
     });
   };
 
