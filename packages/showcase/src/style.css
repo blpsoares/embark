@@ -331,6 +331,19 @@ code {
   text-shadow: 0 0 16px rgba(34, 211, 238, 0.6) !important;
 }
 
+.nav-home:not(.active) {
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+.nav-home:not(.active)::before {
+  opacity: 0 !important;
+}
+
+.nav-home:not(.active)::after {
+  transform: scaleX(0) !important;
+}
+
 /* Hamburger Menu */
 .nav-toggle {
   display: none;
@@ -460,7 +473,7 @@ code {
   height: 4px;
   width: 0%;
   background: linear-gradient(90deg, #a78bfa, #f472b6, #22d3ee);
-  z-index: 9999;
+  z-index: 10001;
   transition: width 0.1s linear;
   box-shadow: 0 0 15px rgba(167, 139, 250, 0.8), 0 0 25px rgba(244, 114, 182, 0.5);
   display: block;
