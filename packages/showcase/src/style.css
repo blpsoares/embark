@@ -358,16 +358,17 @@ code {
 
 .nav-toggle.active span:nth-child(1) {
   transform: rotate(45deg) translate(10px, 10px);
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.6);
 }
 
 .nav-toggle.active span:nth-child(2) {
   opacity: 0;
+  transform: scale(0);
 }
 
 .nav-toggle.active span:nth-child(3) {
   transform: rotate(-45deg) translate(8px, -8px);
-  box-shadow: 0 0 12px rgba(34, 211, 238, 0.5);
+  box-shadow: 0 0 16px rgba(34, 211, 238, 0.6);
 }
 
 @media (max-width: 768px) {
@@ -407,14 +408,13 @@ code {
     background: rgba(10, 10, 15, 0.99);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid rgba(34, 211, 238, 0.1);
-    padding: 0.75rem 0;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.3s ease;
   }
 
   .nav-links.active {
-    max-height: 600px;
+    max-height: 750px;
   }
 
   .nav-links a {
@@ -433,10 +433,15 @@ code {
   }
 
   .nav-cta {
-    margin-left: 0 !important;
-    background: transparent;
-    color: var(--text-dim) !important;
+    margin: 0.5rem 1rem !important;
+    background: linear-gradient(135deg, #818cf8, #22d3ee) !important;
+    color: #fff !important;
     border: none;
+    border-radius: 8px;
+    padding: 0.65rem 1.3rem !important;
+    font-weight: 600;
+    display: block;
+    text-align: center;
   }
 
   .nav-cta::before {
@@ -444,10 +449,9 @@ code {
   }
 
   .nav-cta:hover {
-    color: var(--neon-cyan) !important;
-    box-shadow: none;
-    transform: none;
-    text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
+    box-shadow: 0 0 20px rgba(34, 211, 238, 0.4) !important;
+    transform: translateY(-1px) !important;
+    color: #fff !important;
   }
 }
 
