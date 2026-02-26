@@ -159,9 +159,9 @@ const translations: Record<Language, Record<string, string>> = {
     // Navigation
     "nav.logo": "Embark",
     "nav.home": "Embark",
-    "nav.useCases": "Use Cases",
+    "nav.useCases": "Casos de Uso",
     "nav.why": "Por que Embark",
-    "nav.how": "Como Funciona",
+    "nav.how": "Como funciona",
     "nav.features": "Funcionalidades",
     "nav.start": "Começar",
 
