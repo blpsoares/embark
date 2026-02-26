@@ -1931,9 +1931,20 @@ code {
 }
 
 .ai-provider-icon {
+  width: 60px;
+  height: 60px;
+  object-fit: contain;
+  margin-bottom: 1rem;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.ai-provider-icon-emoji {
   font-size: 3rem;
   margin-bottom: 1rem;
   display: block;
+  text-align: center;
 }
 
 .ai-setup-card h3 {
