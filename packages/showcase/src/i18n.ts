@@ -4,7 +4,7 @@ const translations: Record<Language, Record<string, string>> = {
   en: {
     // Hero
     "hero.tagline": "Ship vibe-coded apps with zero config.",
-    "hero.sub": "Auto CI/CD &middot; Auto Docker &middot; AI-powered &middot; Cloud Run ready",
+    "hero.sub": "Auto CI/CD &middot; Auto Docker &middot; AI-powered &middot; Cloud Run &middot; Netlify",
     "hero.cta": "Get Started",
     "hero.scroll": "Scroll to explore",
 
@@ -67,6 +67,8 @@ const translations: Record<Language, Record<string, string>> = {
     "features.quality.desc": "Pre-push hooks enforce 77% coverage. You can't ship broken code — the framework literally won't let you.",
     "features.scaffold.title": "Instant Scaffolding",
     "features.scaffold.desc": "One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.",
+    "features.netlify.title": "Netlify Ready",
+    "features.netlify.desc": "Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.",
 
     // Architecture
     "arch.title": "Architecture",
@@ -96,7 +98,7 @@ const translations: Record<Language, Record<string, string>> = {
   pt: {
     // Hero
     "hero.tagline": "Publique apps vibe-coded com zero config.",
-    "hero.sub": "CI/CD auto &middot; Docker auto &middot; IA integrada &middot; Cloud Run pronto",
+    "hero.sub": "CI/CD auto &middot; Docker auto &middot; IA integrada &middot; Cloud Run &middot; Netlify",
     "hero.cta": "Começar",
     "hero.scroll": "Role para explorar",
 
@@ -159,6 +161,8 @@ const translations: Record<Language, Record<string, string>> = {
     "features.quality.desc": "Hooks de pre-push exigem 77% de cobertura. Você não consegue publicar código quebrado — o framework não deixa.",
     "features.scaffold.title": "Scaffolding Instantâneo",
     "features.scaffold.desc": "Um comando, duas perguntas, pronto. A CLI cria a estrutura completa do pacote com config, tipos e entrypoint.",
+    "features.netlify.title": "Pronto pro Netlify",
+    "features.netlify.desc": "Escolha Netlify na criação — sem Docker, sem workflow. Só um netlify.toml e push. O framework pula o que não precisa.",
 
     // Architecture
     "arch.title": "Arquitetura",

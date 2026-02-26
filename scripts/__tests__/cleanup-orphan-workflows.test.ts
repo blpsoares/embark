@@ -102,6 +102,36 @@ describe("cleanup-orphan-workflows", () => {
       const result = await cleanOrphanWorkflows(TEST_PACKAGES_DIR, TEST_WORKFLOWS_DIR, TEST_DIR);
       expect(result).toBe(false);
     });
+
+    it("should delete workflows for netlify packages", async () => {
+      await mkdir(join(TEST_PACKAGES_DIR, "my-site"), { recursive: true });
+      await writeFile(
+        join(TEST_PACKAGES_DIR, "my-site", ".embark.json"),
+        JSON.stringify({ deploy: "netlify" }),
+      );
+      await writeFile(join(TEST_WORKFLOWS_DIR, "my-site.yml"), "name: my-site");
+
+      const result = await cleanOrphanWorkflows(TEST_PACKAGES_DIR, TEST_WORKFLOWS_DIR, TEST_DIR);
+      expect(result).toBe(true);
+
+      const remaining = await getWorkflowNames(TEST_WORKFLOWS_DIR);
+      expect(remaining).not.toContain("my-site");
+    });
+
+    it("should keep workflows for cloud-run packages", async () => {
+      await mkdir(join(TEST_PACKAGES_DIR, "api"), { recursive: true });
+      await writeFile(
+        join(TEST_PACKAGES_DIR, "api", ".embark.json"),
+        JSON.stringify({ deploy: "cloud-run" }),
+      );
+      await writeFile(join(TEST_WORKFLOWS_DIR, "api.yml"), "name: api");
+
+      const result = await cleanOrphanWorkflows(TEST_PACKAGES_DIR, TEST_WORKFLOWS_DIR, TEST_DIR);
+      expect(result).toBe(false);
+
+      const remaining = await getWorkflowNames(TEST_WORKFLOWS_DIR);
+      expect(remaining).toContain("api");
+    });
   });
 
   describe("exists", () => {

@@ -219,3 +219,22 @@ describe("processPackageDockerfile - I/O integration", () => {
     }
   });
 });
+
+describe("netlify packages", () => {
+  test("processPackageDockerfile still creates Dockerfile for non-netlify packages", async () => {
+    const testDir = join(tmpdir(), `test-docker-non-netlify-${Date.now()}`);
+    mkdirSync(testDir, { recursive: true });
+
+    try {
+      const pkg = { name: "test-pkg", scripts: { start: "bun run src/index.ts" } };
+      writeFileSync(join(testDir, "package.json"), JSON.stringify(pkg));
+      writeFileSync(join(testDir, ".embark.json"), JSON.stringify({ deploy: "cloud-run" }));
+
+      const result = await processPackageDockerfile("test-pkg", testDir);
+      expect(result).toBe(true);
+      expect(readdirSync(testDir)).toContain("Dockerfile");
+    } finally {
+      Bun.spawnSync(["rm", "-rf", testDir]);
+    }
+  });
+});

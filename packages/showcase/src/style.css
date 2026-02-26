@@ -551,32 +551,6 @@ code {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
-  justify-items: center;
-}
-
-.features-grid .feature-card:nth-child(4),
-.features-grid .feature-card:nth-child(5) {
-  max-width: 100%;
-}
-
-@media (min-width: 901px) {
-  .features-grid {
-    grid-template-columns: repeat(6, 1fr);
-  }
-
-  .features-grid .feature-card:nth-child(1),
-  .features-grid .feature-card:nth-child(2),
-  .features-grid .feature-card:nth-child(3) {
-    grid-column: span 2;
-  }
-
-  .features-grid .feature-card:nth-child(4) {
-    grid-column: 2 / span 2;
-  }
-
-  .features-grid .feature-card:nth-child(5) {
-    grid-column: 4 / span 2;
-  }
 }
 
 @media (max-width: 900px) {

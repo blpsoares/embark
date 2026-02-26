@@ -1,6 +1,7 @@
 import { readdir, unlink, access } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { isNetlifyPackage } from "./embark-config";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -44,13 +45,24 @@ export async function cleanOrphanWorkflows(
   const workflows = await getWorkflowNames(workflowsDir);
   const packagesSet = new Set(packages);
 
+  // Build set of netlify packages (they should not have workflows)
+  const netlifyPackages = new Set<string>();
+  for (const pkg of packages) {
+    const pkgDir = join(packagesDir, pkg);
+    if (await isNetlifyPackage(pkgDir)) {
+      netlifyPackages.add(pkg);
+    }
+  }
+
   let hasChanges = false;
 
   for (const workflow of workflows) {
-    if (!packagesSet.has(workflow)) {
+    // Delete if package was removed OR if package switched to netlify
+    if (!packagesSet.has(workflow) || netlifyPackages.has(workflow)) {
       const workflowPath = join(workflowsDir, `${workflow}.yml`);
       await unlink(workflowPath);
-      console.log(`[cleanup-orphan] deleted: .github/workflows/${workflow}.yml`);
+      const reason = netlifyPackages.has(workflow) ? "netlify deploy" : "package deleted";
+      console.log(`[cleanup-orphan] deleted: .github/workflows/${workflow}.yml (${reason})`);
       hasChanges = true;
     }
   }

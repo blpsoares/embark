@@ -36,6 +36,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 # test artifacts
 .test-cleanup
 .test-sync
+.test-embark-config
 
 # claude
 .claude

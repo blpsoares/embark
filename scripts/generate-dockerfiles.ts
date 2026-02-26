@@ -1,6 +1,7 @@
 import { readdir, readFile, writeFile, access } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { isNetlifyPackage } from "./embark-config";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -92,6 +93,10 @@ async function generateDockerfiles() {
 
   for (const packageName of packages) {
     const packageDir = join(PACKAGES_DIR, packageName);
+    if (await isNetlifyPackage(packageDir)) {
+      console.log(`[generate-dockerfiles] ${packageName}: netlify deploy, skipping Dockerfile`);
+      continue;
+    }
     const changed = await processPackageDockerfile(packageName, packageDir);
     if (changed) {
       hasChanges = true;

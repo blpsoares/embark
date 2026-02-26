@@ -1,6 +1,7 @@
 import { readdir, readFile, writeFile, mkdir, access } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
+import { isNetlifyPackage } from "./embark-config";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -62,7 +63,18 @@ export async function processPackagesWorkflows(
 
 async function generateWorkflows() {
   const template = await readFile(TEMPLATE_PATH, "utf-8");
-  const packages = await getPackageNames();
+  const allPackages = await getPackageNames();
+
+  // Filter out packages that deploy via Netlify (they don't need CI/CD workflows)
+  const packages: string[] = [];
+  for (const pkg of allPackages) {
+    const pkgDir = join(PACKAGES_DIR, pkg);
+    if (await isNetlifyPackage(pkgDir)) {
+      console.log(`[generate-workflows] ${pkg}: netlify deploy, skipping workflow`);
+      continue;
+    }
+    packages.push(pkg);
+  }
 
   await mkdir(WORKFLOWS_DIR, { recursive: true });
 

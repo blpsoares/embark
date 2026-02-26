@@ -2,6 +2,7 @@ import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { execSync } from "node:child_process";
 import * as readline from "node:readline";
+import type { DeployTarget } from "./embark-config";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -34,6 +35,13 @@ async function getInput(question: string): Promise<string> {
   });
 }
 
+function buildNetlifyToml(buildCommand: string, publishDir: string): string {
+  return `[build]
+  command = "${buildCommand}"
+  publish = "${publishDir}"
+`;
+}
+
 async function createPackage() {
   console.log("📦 Package Creator - embark\n");
 
@@ -59,11 +67,21 @@ async function createPackage() {
     process.exit(1);
   }
 
+  // Ask for deploy target
+  let deployTarget: DeployTarget = "cloud-run";
+  const deployAnswer = await getInput(
+    "\n🚀 Deploy target:\n  1. Google Cloud Run (default — generates workflow + Dockerfile)\n  2. Netlify (no CI/CD or Docker needed)\n  Choose [1/2]: ",
+  );
+
+  if (deployAnswer === "2") {
+    deployTarget = "netlify";
+  }
+
   // Create package directory
   const packageDir = join(PACKAGES_DIR, camelCaseName);
   const srcDir = join(packageDir, "src");
 
-  console.log(`\n🚀 Creating package: ${camelCaseName}`);
+  console.log(`\n🚀 Creating package: ${camelCaseName} (deploy: ${deployTarget})`);
 
   try {
     // Create directories
@@ -105,6 +123,21 @@ async function createPackage() {
     await writeFile(join(srcDir, "index.ts"), indexTs);
     console.log(`  ✓ Created: src/index.ts`);
 
+    // Create .embark.json
+    const embarkConfig = { deploy: deployTarget };
+    await writeFile(
+      join(packageDir, ".embark.json"),
+      JSON.stringify(embarkConfig, null, 2) + "\n",
+    );
+    console.log(`  ✓ Created: .embark.json (deploy: ${deployTarget})`);
+
+    // Create deploy-specific files
+    if (deployTarget === "netlify") {
+      const netlifyToml = buildNetlifyToml("bun run build", "dist");
+      await writeFile(join(packageDir, "netlify.toml"), netlifyToml);
+      console.log(`  ✓ Created: netlify.toml`);
+    }
+
     // Git add
     try {
       execSync(`git add packages/${camelCaseName}/`, { cwd: ROOT, stdio: "inherit" });
@@ -118,7 +151,13 @@ async function createPackage() {
     console.log(`Next steps:`);
     console.log(`  1. Edit packages/${camelCaseName}/src/index.ts`);
     console.log(`  2. Run: bun install`);
-    console.log(`  3. Commit your changes\n`);
+
+    if (deployTarget === "netlify") {
+      console.log(`  3. Connect the repo on Netlify and set base directory to packages/${camelCaseName}`);
+      console.log(`  4. Commit your changes (no workflow or Dockerfile will be generated)\n`);
+    } else {
+      console.log(`  3. Commit your changes\n`);
+    }
   } catch (error) {
     console.error(`\n❌ Error creating package:`, error);
     process.exit(1);
