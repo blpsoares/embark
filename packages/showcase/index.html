@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Embark — Ship Vibe-Coded Apps</title>
     <meta name="description" content="Zero-config monorepo framework for shipping vibe-coded apps with auto CI/CD, Docker, and Cloud Run deployment." />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/icone.png" />
+    <!-- Open Graph / Twitter preview -->
+    <meta property="og:title" content="Embark — Ship Vibe-Coded Apps" />
+    <meta property="og:description" content="Zero-config monorepo framework for shipping vibe-coded apps with auto CI/CD, Docker, and Cloud Run deployment." />
+    <meta property="og:image" content="/logo.png" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Embark — Ship Vibe-Coded Apps" />
+    <meta name="twitter:description" content="Zero-config monorepo framework for shipping vibe-coded apps with auto CI/CD, Docker, and Cloud Run deployment." />
+    <meta name="twitter:image" content="/logo.png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
@@ -35,6 +47,26 @@
         <img class="lang-flag" src="/brasil.png" alt="Português" />
       </button>
     </div>
+
+    <!-- Navigation Menu -->
+    <nav id="main-nav">
+      <div class="nav-container">
+        <a href="#hero" class="nav-logo" data-i18n="nav.logo">Embark</a>
+        <button class="nav-toggle" id="nav-toggle" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+          <li><a href="#hero" class="nav-home" data-i18n="nav.home">Embark</a></li>
+          <li><a href="#use-cases" data-i18n="nav.useCases">Use Cases</a></li>
+          <li><a href="#why-embark" data-i18n="nav.why">Why Embark</a></li>
+          <li><a href="#how-it-works" data-i18n="nav.how">How It Works</a></li>
+          <li><a href="#features" data-i18n="nav.features">Features</a></li>
+          <li><a href="#get-started" class="nav-cta" data-i18n="nav.start">Get Started</a></li>
+        </ul>
+      </div>
+    </nav>
 
     <!-- Hero -->
     <section id="hero">
@@ -110,7 +142,7 @@
           <div class="stat-detail" data-i18n="why.stat2.detail">Pre-push hooks guarantee quality</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-number" data-target="7">0</div>
           <div class="stat-label" data-i18n="why.stat3.label">Pre-commit automations</div>
           <div class="stat-detail" data-i18n="why.stat3.detail">Everything runs before you even push</div>
         </div>
@@ -118,6 +150,29 @@
           <div class="stat-number" data-target="4">0</div>
           <div class="stat-label" data-i18n="why.stat4.label">AI CLIs supported</div>
           <div class="stat-detail" data-i18n="why.stat4.detail">Gemini, Claude, Copilot, Codex</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Experience -->
+    <section id="developer-experience">
+      <h2 class="section-title" data-i18n="devexp.title">Built for Developers, Powered by AI</h2>
+      <p class="section-subtitle" data-i18n="devexp.subtitle">The perfect blend of automation and control.</p>
+      <div class="devexp-grid">
+        <div class="devexp-card">
+          <div class="devexp-icon">🤖</div>
+          <h3 data-i18n="devexp.ai.title">AI as Your Sidekick</h3>
+          <p data-i18n="devexp.ai.desc">Let AI generate Dockerfiles, boilerplate, and configs while you focus on building features. You stay in control—every generated file is readable and editable.</p>
+        </div>
+        <div class="devexp-card">
+          <div class="devexp-icon">📦</div>
+          <h3 data-i18n="devexp.embed.title">Embed Anywhere</h3>
+          <p data-i18n="devexp.embed.desc">Deploy frontend packages to Netlify or any static host. Then embed them anywhere—dashboards, wikis, intranets—via simple <code>&lt;iframe&gt;</code> tags. Publish once, use everywhere.</p>
+        </div>
+        <div class="devexp-card">
+          <div class="devexp-icon">⚡</div>
+          <h3 data-i18n="devexp.pleasure.title">Pleasure + Utility</h3>
+          <p data-i18n="devexp.pleasure.desc">Work with a beautiful, fast framework that doesn't get in your way. Ship faster, sleep better, spend Friday on what actually matters—not debugging YAML or wrestling Docker.</p>
         </div>
       </div>
     </section>
@@ -162,9 +217,6 @@
             <div class="terminal-line" data-delay="8500">
               <span class="prompt">$</span> <span class="cmd" data-text="git push origin main"></span>
             </div>
-            <div class="terminal-line output" data-delay="10000">
-              <span data-text="🚀 Deployed to Cloud Run! https://my-awesome-app.run.app"></span>
-            </div>
           </div>
         </div>
       </div>
@@ -176,6 +228,14 @@
       <p class="section-subtitle" data-i18n="commit.subtitle">Every <code>git commit</code> triggers a pipeline of automations. No config required.</p>
       <div class="pipeline">
         <div class="pipeline-step" data-step="1">
+          <div class="pipeline-icon">⚙️</div>
+          <div class="pipeline-info">
+            <h3 data-i18n="commit.step0.title">Ensure Deploy Config</h3>
+            <p data-i18n="commit.step0.desc">Detects packages without <code>.embark.json</code> and asks you to choose a deploy target: Cloud Run, Netlify, or Other.</p>
+          </div>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-step" data-step="2">
           <div class="pipeline-icon">🔧</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step1.title">Generate Workflows</h3>
@@ -183,7 +243,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="2">
+        <div class="pipeline-step" data-step="3">
           <div class="pipeline-icon">🔄</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step2.title">Sync Workflows</h3>
@@ -191,7 +251,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="3">
+        <div class="pipeline-step" data-step="4">
           <div class="pipeline-icon">🧹</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step3.title">Cleanup Orphans</h3>
@@ -199,7 +259,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="4">
+        <div class="pipeline-step" data-step="5">
           <div class="pipeline-icon">🐳</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step4.title">Generate Dockerfiles</h3>
@@ -207,7 +267,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="5">
+        <div class="pipeline-step" data-step="6">
           <div class="pipeline-icon">📄</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step5.title">Update README</h3>
@@ -217,42 +277,264 @@
       </div>
     </section>
 
-    <!-- Features -->
+    <!-- Commit Flow Examples -->
+    <section id="commit-examples">
+      <h2 class="section-title" data-i18n="examples.title">Real Workflows in Action</h2>
+      <p class="section-subtitle" data-i18n="examples.subtitle">Two packages, two AI models, two deploy targets. Same magic, different paths.</p>
+
+      <div class="dual-terminal-container">
+        <!-- Left Terminal: Netlify + Codex -->
+        <div class="terminal-wrapper left">
+          <div class="terminal-label" data-i18n="examples.left.label">Netlify + Codex</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">my-landing-site</span>
+            </div>
+            <div class="terminal-body" id="terminal-left">
+              <div class="terminal-line" data-delay="0">
+                <span class="prompt">$</span> <span class="cmd" data-text="git add . && git commit -m &quot;feat: landing&quot;"></span>
+              </div>
+              <div class="terminal-line output rocket" data-delay="1200">
+                <span data-text="🚀 Package &quot;my-landing-site&quot; needs a deploy configuration"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="1800">
+                <span data-text="? Choose deploy target: Netlify"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="2400">
+                <span data-text="✓ Created .embark.jsonc for my-landing-site (deploy: netlify)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="3000">
+                <span data-text="✓ Created netlify.toml"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3600">
+                <span data-text="? Generate a Dockerfile for this package? Yes"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="4200">
+                <span data-text="? Dockerfile Generation Method: AI"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="4800">
+                <span data-text="🤖 AI Provider Selection: Codex"></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="5400">
+                <span data-text="⏳ Generating Dockerfile with codex..."></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="7200">
+                <span data-text="⏳ Receiving data... (2048 bytes)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="8800">
+                <span data-text="✓ CODEX generated Dockerfile successfully (2048 bytes received)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="9400">
+                <span data-text="✓ Packages added to git staging"></span>
+              </div>
+              <div class="terminal-line output" data-delay="10000">
+                <span data-text="[main abc123d] feat: landing"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Terminal: GCP Cloud Run + Claude -->
+        <div class="terminal-wrapper right">
+          <div class="terminal-label" data-i18n="examples.right.label">GCP Cloud Run + Claude</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">api-service</span>
+            </div>
+            <div class="terminal-body" id="terminal-right">
+              <div class="terminal-line" data-delay="0">
+                <span class="prompt">$</span> <span class="cmd" data-text="git add . && git commit -m &quot;feat: api&quot;"></span>
+              </div>
+              <div class="terminal-line output rocket" data-delay="1200">
+                <span data-text="🚀 Package &quot;api-service&quot; needs a deploy configuration"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="1800">
+                <span data-text="? Choose deploy target: Cloud Run"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="2400">
+                <span data-text="✓ Created .embark.jsonc for api-service (deploy: cloud-run)"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3000">
+                <span data-text="? Generate a Dockerfile? Yes"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3600">
+                <span data-text="? Dockerfile Generation Method: AI"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="4200">
+                <span data-text="🤖 AI Provider Selection: Claude"></span>
+              </div>
+              <div class="terminal-line output workflow" data-delay="4800">
+                <span data-text="🔧 Generating workflow..."></span>
+              </div>
+              <div class="terminal-line output success" data-delay="5400">
+                <span data-text="✓ Generated .github/workflows/api-service.yml"></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="6000">
+                <span data-text="⏳ Generating Dockerfile with claude..."></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="8400">
+                <span data-text="⏳ Receiving data... (3456 bytes)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="10200">
+                <span data-text="✓ CLAUDE generated Dockerfile successfully (3456 bytes received)"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="10800">
+                <span data-text="📄 Updating README packages table..."></span>
+              </div>
+              <div class="terminal-line output success" data-delay="11400">
+                <span data-text="✓ Packages added to git staging"></span>
+              </div>
+              <div class="terminal-line output" data-delay="12000">
+                <span data-text="[main def456e] feat: api"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- AI CLIs Setup -->
+    <section id="ai-setup">
+      <h2 class="section-title" data-i18n="aiSetup.title">AI-Powered Dockerfile Generation</h2>
+      <p class="section-subtitle" data-i18n="aiSetup.subtitle">Choose your favorite AI provider and let it generate optimized Dockerfiles for your apps.</p>
+
+      <div class="ai-setup-grid">
+        <div class="ai-setup-card">
+          <img src="/github-copilot.jpg" alt="Copilot" class="ai-provider-icon" />
+          <h3 data-i18n="aiSetup.copilot.name">Copilot</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.copilot.by">by GitHub</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @github/copilot</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <img src="/claude.png" alt="Claude" class="ai-provider-icon" />
+          <h3 data-i18n="aiSetup.claude.name">Claude</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.claude.by">by Anthropic</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <img src="/codex.png" alt="Codex" class="ai-provider-icon" />
+          <h3 data-i18n="aiSetup.codex.name">Codex</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.codex.by">by OpenAI</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @openai/codex</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <img src="/gemini.webp" alt="Gemini" class="ai-provider-icon" />
+          <h3 data-i18n="aiSetup.gemini.name">Gemini</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.gemini.by">by Google</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @google/gemini-cli</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-setup-note">
+        <p data-i18n="aiSetup.note">Install any or all of these CLIs. When you run <code>bun run new-package</code>, Embark will ask which AI provider you want to use for Dockerfile generation.</p>
+      </div>
+    </section>
+
+    <!-- Try It — Interactive Terminal -->
+    <section id="try-it">
+      <h2 class="section-title" data-i18n="tryit.title">Try It Yourself</h2>
+      <p class="section-subtitle" data-i18n="tryit.subtitle">Simulate the entire pre-commit pipeline. Make choices and see the magic happen.</p>
+
+      <div class="interactive-terminal-wrapper">
+        <div class="terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">embark-simulator</span>
+          </div>
+          <div class="terminal-body" id="interactive-terminal">
+            <div class="terminal-line">
+              <span class="prompt">$</span> <span class="cmd">git add . && git commit -m "feat: my-app"</span>
+            </div>
+          </div>
+          <div class="terminal-input-area">
+            <div class="terminal-choices" id="choices-container" style="display: none;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Carousel -->
     <section id="features">
       <h2 class="section-title" data-i18n="features.title">Features</h2>
       <p class="section-subtitle" data-i18n="features.subtitle">Everything you need to ship fast, nothing you don't.</p>
-      <div class="features-grid">
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">⚡</div>
-          <h3 data-i18n="features.bun.title">Bun All The Way</h3>
-          <p data-i18n="features.bun.desc">One runtime for everything — scripts, tests, builds, package management. No Node, no npm, no webpack. Just Bun.</p>
+
+      <div class="carousel-viewport">
+        <div class="carousel-track" id="featureCarousel">
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">⚡</div>
+            <h3 data-i18n="features.bun.title">Bun All The Way</h3>
+            <p data-i18n="features.bun.desc">One runtime for everything — scripts, tests, builds, package management. No Node, no npm, no webpack. Just Bun.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">🤖</div>
+            <h3 data-i18n="features.ai.title">AI-Assisted Setup</h3>
+            <p data-i18n="features.ai.desc">Plug in your favorite AI CLI — Gemini, Claude, Copilot, or Codex — and get Dockerfiles tailored to your app's stack.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">🎯</div>
+            <h3 data-i18n="features.deploy.title">Selective Deploy</h3>
+            <p data-i18n="features.deploy.desc">Change one package, deploy one package. Path-filtered CI/CD means no wasted builds, no unnecessary downtime.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">🧪</div>
+            <h3 data-i18n="features.quality.title">Quality Gates</h3>
+            <p data-i18n="features.quality.desc">Pre-push hooks enforce 77% coverage. You can't ship broken code — the framework literally won't let you.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">📦</div>
+            <h3 data-i18n="features.scaffold.title">Instant Scaffolding</h3>
+            <p data-i18n="features.scaffold.desc">One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">🌐</div>
+            <h3 data-i18n="features.netlify.title">Netlify Ready</h3>
+            <p data-i18n="features.netlify.desc">Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.</p>
+          </div>
+          <div class="feature-card carousel-slide">
+            <div class="feature-icon">🔌</div>
+            <h3 data-i18n="features.other.title">Bring Your Own Infra</h3>
+            <p data-i18n="features.other.desc">Deploy to Vercel, Fly.io, AWS, or anywhere else. Set deploy to "other" and Embark skips workflows and Dockerfiles — you handle the rest.</p>
+          </div>
         </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🤖</div>
-          <h3 data-i18n="features.ai.title">AI-Assisted Setup</h3>
-          <p data-i18n="features.ai.desc">Plug in your favorite AI CLI — Gemini, Claude, Copilot, or Codex — and get Dockerfiles tailored to your app's stack.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🎯</div>
-          <h3 data-i18n="features.deploy.title">Selective Deploy</h3>
-          <p data-i18n="features.deploy.desc">Change one package, deploy one package. Path-filtered CI/CD means no wasted builds, no unnecessary downtime.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🧪</div>
-          <h3 data-i18n="features.quality.title">Quality Gates</h3>
-          <p data-i18n="features.quality.desc">Pre-push hooks enforce 77% coverage. You can't ship broken code — the framework literally won't let you.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">📦</div>
-          <h3 data-i18n="features.scaffold.title">Instant Scaffolding</h3>
-          <p data-i18n="features.scaffold.desc">One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.</p>
-        </div>
-        <div class="feature-card" data-tilt>
-          <div class="feature-icon">🌐</div>
-          <h3 data-i18n="features.netlify.title">Netlify Ready</h3>
-          <p data-i18n="features.netlify.desc">Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.</p>
-        </div>
+
+        <!-- Navigation -->
+        <button class="carousel-nav carousel-prev" aria-label="Previous features">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+        <button class="carousel-nav carousel-next" aria-label="Next features">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
       </div>
+
+      <!-- Indicators -->
+      <div class="carousel-indicators" id="featureIndicators"></div>
     </section>
 
     <!-- You Stay in Control -->
@@ -278,7 +560,7 @@
             <div class="deploy-diagram">
               <div class="deploy-package cloud-run">auth-api <span class="deploy-badge cr">Cloud Run</span></div>
               <div class="deploy-package netlify-pkg">landing <span class="deploy-badge net">Netlify</span></div>
-              <div class="deploy-package cloud-run">payments <span class="deploy-badge cr">Cloud Run</span></div>
+              <div class="deploy-package other-pkg" data-i18n="control.diagram.other">worker <span class="deploy-badge other">Other</span></div>
             </div>
           </div>
           <div class="control-info">
@@ -297,15 +579,6 @@
             <p data-i18n="control.override.desc">Manually edited a Dockerfile? Embark won't touch it. Custom workflow? Preserved. Every automation respects existing files. You can also set your own deploy target in <code>.embark.json</code> — the framework follows your lead.</p>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Architecture -->
-    <section id="architecture">
-      <h2 class="section-title" data-i18n="arch.title">Architecture</h2>
-      <p class="section-subtitle" data-i18n="arch.subtitle">A clean, opinionated structure. Every file has a purpose.</p>
-      <div class="architecture-container">
-        <pre class="file-tree" id="file-tree"><code></code></pre>
       </div>
     </section>
 
@@ -370,6 +643,15 @@ git push origin main
 # 🚀 Auto-deployed to Cloud Run!</code></pre>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture">
+      <h2 class="section-title" data-i18n="arch.title">Architecture</h2>
+      <p class="section-subtitle" data-i18n="arch.subtitle">A clean, opinionated structure. Every file has a purpose.</p>
+      <div class="architecture-container">
+        <pre class="file-tree" id="file-tree"><code></code></pre>
       </div>
     </section>
 

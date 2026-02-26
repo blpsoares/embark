@@ -1,7 +1,10 @@
 import { readdir, readFile, writeFile, access } from "node:fs/promises";
 import { execSync, spawn } from "node:child_process";
 import { join } from "node:path";
-import { isNetlifyPackage } from "./embark-config";
+import { isExternalDeploy } from "./embark-config";
+import * as readline from "node:readline";
+import * as fs from "node:fs";
+import * as tty from "node:tty";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -82,7 +85,27 @@ function isCliAvailable(command: string): boolean {
 }
 
 function write(text: string) {
+  if (TTY_OUT) {
+    TTY_OUT.write(text);
+    return;
+  }
   process.stdout.write(text);
+}
+
+let TTY_IN: tty.ReadStream | null = null;
+let TTY_OUT: fs.WriteStream | null = null;
+
+function tryInitTty() {
+  if (TTY_IN && TTY_OUT) return;
+  try {
+    const fd = fs.openSync("/dev/tty", "r+");
+    const inStream = new tty.ReadStream(fd);
+    const outStream = fs.createWriteStream(null as any, { fd });
+    TTY_IN = inStream;
+    TTY_OUT = outStream;
+  } catch {
+    // ignore
+  }
 }
 
 // ── spinner with status ────────────────────────────────────
@@ -113,14 +136,42 @@ function createSpinner(message: string) {
 
 // ── fixed interactive menu ─────────────────────────────────
 async function readKey(): Promise<string> {
-  return new Promise((resolve) => {
-    process.stdin.setRawMode(true);
-    process.stdin.resume();
-    process.stdin.once("data", (data) => {
-      process.stdin.setRawMode(false);
-      process.stdin.pause();
-      resolve(data.toString());
-    });
+  return new Promise((resolve, reject) => {
+    // Prefer using the process stdin when it's a TTY
+    if (typeof process.stdin.setRawMode === "function" && process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.once("data", (data) => {
+        try {
+          process.stdin.setRawMode(false);
+        } catch {}
+        process.stdin.pause();
+        resolve(data.toString());
+      });
+      return;
+    }
+
+    // Try to open /dev/tty for interactive input (works in many hook environments)
+    tryInitTty();
+    if (TTY_IN) {
+      const inStream = TTY_IN;
+      try {
+        inStream.setRawMode(true);
+      } catch {}
+      inStream.resume();
+      const onData = (data: Buffer) => {
+        try {
+          inStream.setRawMode(false);
+        } catch {}
+        inStream.pause();
+        inStream.removeListener("data", onData);
+        resolve(data.toString());
+      };
+      inStream.on("data", onData);
+      return;
+    }
+
+    reject(new Error("raw mode unavailable"));
   });
 }
 
@@ -143,6 +194,30 @@ function renderMenu(title: string, options: string[], index: number, totalLines:
 }
 
 async function menuSelect(title: string, options: string[]): Promise<number | null> {
+  // If raw mode isn't available (e.g., non-TTY or some CI/hook environments),
+  // fall back to a numbered prompt using readline.
+  if (typeof process.stdin.setRawMode !== "function" || !process.stdin.isTTY) {
+    // Simple numbered selection
+    write(`${title}\n`);
+    for (let i = 0; i < options.length; i++) {
+      write(`  ${i + 1}. ${options[i]}\n`);
+    }
+    write(`\n`);
+
+    const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+    return new Promise((resolve) => {
+      rl.question(`Choose [1-${options.length}] (default 1): `, (answer) => {
+        rl.close();
+        const n = parseInt(answer.trim(), 10);
+        if (Number.isFinite(n) && n >= 1 && n <= options.length) {
+          resolve(n - 1);
+        } else {
+          resolve(0);
+        }
+      });
+    });
+  }
+
   const totalLines = options.length + 3;
 
   write(CURSOR.hide);
@@ -162,7 +237,25 @@ async function menuSelect(title: string, options: string[]): Promise<number | nu
   }
 
   while (true) {
-    const key = await readKey();
+    let key: string;
+    try {
+      key = await readKey();
+    } catch (err) {
+      // If raw mode failed mid-loop, fall back to numeric prompt
+      write(CURSOR.show);
+      const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
+      return new Promise((resolve) => {
+        rl.question(`Choose [1-${options.length}] (default 1): `, (answer) => {
+          rl.close();
+          const n = parseInt(answer.trim(), 10);
+          if (Number.isFinite(n) && n >= 1 && n <= options.length) {
+            resolve(n - 1);
+          } else {
+            resolve(0);
+          }
+        });
+      });
+    }
 
     if (key === "\x1b[A") {
       index = (index - 1 + options.length) % options.length;
@@ -215,7 +308,7 @@ async function getPackagesWithoutDockerfile(): Promise<PackageInfo[]> {
 
     if (await exists(dockerfilePath)) continue;
     if (!(await exists(pkgJsonPath))) continue;
-    if (await isNetlifyPackage(packageDir)) continue;
+    if (await isExternalDeploy(packageDir)) continue;
 
     const pkgContent = await readFile(pkgJsonPath, "utf-8");
     const files = await listFiles(packageDir);
@@ -239,7 +332,7 @@ async function checkAllPackagesHaveDockerfile(): Promise<string[]> {
   for (const entry of entries) {
     if (!entry.isDirectory()) continue;
     const packageDir = join(PACKAGES_DIR, entry.name);
-    if (await isNetlifyPackage(packageDir)) continue;
+    if (await isExternalDeploy(packageDir)) continue;
     const dockerfilePath = join(packageDir, "Dockerfile");
     if (!(await exists(dockerfilePath))) {
       withoutDockerfile.push(entry.name);

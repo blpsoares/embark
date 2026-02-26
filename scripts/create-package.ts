@@ -70,11 +70,13 @@ async function createPackage() {
   // Ask for deploy target
   let deployTarget: DeployTarget = "cloud-run";
   const deployAnswer = await getInput(
-    "\n🚀 Deploy target:\n  1. Google Cloud Run (default — generates workflow + Dockerfile)\n  2. Netlify (no CI/CD or Docker needed)\n  Choose [1/2]: ",
+    "\n🚀 Deploy target:\n  1. Google Cloud Run (default — generates workflow + Dockerfile)\n  2. Netlify (no CI/CD or Docker needed)\n  3. Other (custom deploy — no workflow or Docker generated)\n  Choose [1/2/3]: ",
   );
 
   if (deployAnswer === "2") {
     deployTarget = "netlify";
+  } else if (deployAnswer === "3") {
+    deployTarget = "other";
   }
 
   // Create package directory
@@ -154,6 +156,9 @@ async function createPackage() {
 
     if (deployTarget === "netlify") {
       console.log(`  3. Connect the repo on Netlify and set base directory to packages/${camelCaseName}`);
+      console.log(`  4. Commit your changes (no workflow or Dockerfile will be generated)\n`);
+    } else if (deployTarget === "other") {
+      console.log(`  3. Configure your own deploy pipeline`);
       console.log(`  4. Commit your changes (no workflow or Dockerfile will be generated)\n`);
     } else {
       console.log(`  3. Commit your changes\n`);

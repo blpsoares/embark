@@ -27,6 +27,8 @@ embark/
 │
 ├── scripts/                   # Monorepo automations
 │   ├── create-package.ts      # CLI to create a new package
+│   ├── embark-config.ts       # Shared deploy config reader (.embark.json)
+│   ├── ensure-deploy-config.ts # Interactive prompt for missing .embark.json
 │   ├── generate-workflows.ts  # Generates GitHub Actions workflows per package
 │   ├── generate-dockerfiles.ts # Generates default Dockerfiles
 │   ├── generate-dockerfiles-ai.ts # CLI with AI for Dockerfiles
@@ -248,25 +250,31 @@ on:
 
 On commit, these scripts run automatically in order:
 
-### 1. `generate-workflows.ts`
+### 1. `ensure-deploy-config.ts`
 
-Scans `packages/` and generates workflows for new packages in `.github/workflows/`, using the template `templates/workflow.template.yml`.
+Scans `packages/` for any package missing `.embark.json`. Interactively asks the user to choose a deploy target (Cloud Run, Netlify, or Other).
 
-### 2. `sync-workflows.ts`
+### 2. `generate-workflows.ts`
+
+Scans `packages/` and generates workflows for new packages in `.github/workflows/`, using the template `templates/workflow.template.yml`. Skips packages with external deploy targets (netlify/other).
+
+### 3. `sync-workflows.ts`
 
 Syncs existing workflows with the template. Offers options to overwrite all or review one by one.
 
-### 3. `cleanup-orphan-workflows.ts`
+### 4. `cleanup-orphan-workflows.ts`
 
-Removes workflows whose packages have been deleted and adds the removal to the commit automatically.
+Removes workflows whose packages have been deleted or switched to external deploy, and adds the removal to the commit automatically.
 
-### 4. `generate-dockerfiles-ai.ts`
+### 5. `generate-dockerfiles-ai.ts`
 
 Identifies packages without `Dockerfile` and offers two options:
 - **Yes** — choose an AI CLI, sends a prompt with the `package.json` and file structure, receives the Dockerfile
 - **No** — generates a default Dockerfile based on `package.json` scripts
 
-### 5. `update-readme-packages.ts`
+Skips packages with external deploy targets (netlify/other).
+
+### 6. `update-readme-packages.ts`
 
 Updates the packages table in `README.md` automatically when there are new packages or removals.
 

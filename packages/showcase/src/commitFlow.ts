@@ -1,5 +1,5 @@
-export function initTerminal() {
-  const section = document.getElementById("how-it-works");
+export function initCommitFlow() {
+  const section = document.getElementById("commit-examples");
   if (!section) return;
 
   let started = false;
@@ -9,7 +9,7 @@ export function initTerminal() {
       for (const entry of entries) {
         if (entry.isIntersecting && !started) {
           started = true;
-          animateTerminal();
+          animateCommitFlows();
         }
       }
     },
@@ -19,13 +19,30 @@ export function initTerminal() {
   observer.observe(section);
 }
 
-function animateTerminal() {
-  const section = document.getElementById("how-it-works");
-  if (!section) return;
+function animateCommitFlows() {
+  // Animate left terminal
+  const leftLines = document.querySelectorAll<HTMLElement>(
+    "#terminal-left .terminal-line"
+  );
+  for (const line of leftLines) {
+    const delay = parseInt(line.dataset.delay ?? "0", 10);
+    const textEl = line.querySelector<HTMLElement>("[data-text]");
+    const text = textEl?.dataset.text ?? "";
 
-  const lines = section.querySelectorAll<HTMLElement>(".terminal-line");
+    setTimeout(() => {
+      line.classList.add("visible");
 
-  for (const line of lines) {
+      if (textEl && text) {
+        typeText(textEl, text);
+      }
+    }, delay);
+  }
+
+  // Animate right terminal
+  const rightLines = document.querySelectorAll<HTMLElement>(
+    "#terminal-right .terminal-line"
+  );
+  for (const line of rightLines) {
     const delay = parseInt(line.dataset.delay ?? "0", 10);
     const textEl = line.querySelector<HTMLElement>("[data-text]");
     const text = textEl?.dataset.text ?? "";
