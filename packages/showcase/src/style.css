@@ -1707,6 +1707,14 @@ code {
     overflow-wrap: break-word;
     word-break: break-word;
   }
+
+  .file-tree .comment {
+    display: block;
+    margin-left: 1.5rem;
+    margin-top: -0.9rem;
+    margin-bottom: 0.5rem;
+    font-size: 0.8rem;
+  }
 }
 
 /* ── Use Cases ── */
@@ -1792,6 +1800,19 @@ code {
 @media (max-width: 768px) {
   .get-started-grid {
     grid-template-columns: 1fr;
+  }
+
+  .code-block pre {
+    user-select: text;
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+  }
+
+  .copy-btn {
+    padding: 8px 12px;
+    font-size: 0.75rem;
+    z-index: 10;
   }
 }
 
