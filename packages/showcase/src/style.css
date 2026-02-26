@@ -132,7 +132,7 @@ code {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9996;
+  z-index: 10000;
   background: rgba(10, 10, 15, 0.4);
   backdrop-filter: blur(20px) saturate(1.2);
   border-bottom: 1px solid rgba(34, 211, 238, 0.1);
@@ -281,7 +281,7 @@ code {
 .nav-cta {
   background: linear-gradient(135deg, #818cf8, #22d3ee);
   color: #fff !important;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 0.65rem 1.3rem !important;
   margin-left: 0.8rem;
   position: relative;
@@ -329,6 +329,19 @@ code {
 
 .nav-home:hover {
   text-shadow: 0 0 16px rgba(34, 211, 238, 0.6) !important;
+}
+
+.nav-home:not(.active) {
+  color: var(--text) !important;
+  text-shadow: none !important;
+}
+
+.nav-home:not(.active)::before {
+  opacity: 0 !important;
+}
+
+.nav-home:not(.active)::after {
+  transform: scaleX(0) !important;
 }
 
 /* Hamburger Menu */
@@ -457,11 +470,14 @@ code {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: 4px;
   width: 0%;
-  background: var(--gradient-glow);
-  z-index: 9999;
+  background: linear-gradient(90deg, #a78bfa, #f472b6, #22d3ee);
+  z-index: 10001;
   transition: width 0.1s linear;
+  box-shadow: 0 0 15px rgba(167, 139, 250, 0.8), 0 0 25px rgba(244, 114, 182, 0.5);
+  display: block;
+  pointer-events: none;
 }
 
 /* Custom Cursor */
