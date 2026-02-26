@@ -4,6 +4,7 @@ const translations: Record<Language, Record<string, string>> = {
   en: {
     // Navigation
     "nav.logo": "Embark",
+    "nav.home": "Embark",
     "nav.useCases": "Use Cases",
     "nav.why": "Why Embark",
     "nav.how": "How It Works",
@@ -74,6 +75,16 @@ const translations: Record<Language, Record<string, string>> = {
     "commit.step5.title": "Update README",
     "commit.step5.desc": "Auto-updates the packages table in README.md. New packages appear, deleted ones disappear.",
 
+    // Commit Flow Examples
+    "examples.title": "Real Workflows in Action",
+    "examples.subtitle": "Two packages, two AI models, two deploy targets. Same magic, different paths.",
+    "examples.left.label": "Netlify + Codex",
+    "examples.right.label": "GCP Cloud Run + Claude",
+
+    // Try It
+    "tryit.title": "Try It Yourself",
+    "tryit.subtitle": "Simulate the entire pre-commit pipeline. Make choices and see the magic happen.",
+
     // Features
     "features.title": "Features",
     "features.subtitle": "Everything you need to ship fast, nothing you don't.",
@@ -134,6 +145,7 @@ const translations: Record<Language, Record<string, string>> = {
   pt: {
     // Navigation
     "nav.logo": "Embark",
+    "nav.home": "Embark",
     "nav.useCases": "Use Cases",
     "nav.why": "Por que Embark",
     "nav.how": "Como Funciona",
@@ -203,6 +215,16 @@ const translations: Record<Language, Record<string, string>> = {
     "commit.step4.desc": "Encontra pacotes sem Dockerfile. Escolha geração com IA (Gemini, Claude, Copilot, Codex) ou defaults inteligentes.",
     "commit.step5.title": "Atualizar README",
     "commit.step5.desc": "Atualiza automaticamente a tabela de pacotes no README.md. Novos aparecem, deletados somem.",
+
+    // Commit Flow Examples
+    "examples.title": "Fluxos Reais em Ação",
+    "examples.subtitle": "Dois pacotes, dois modelos de IA, dois alvos de deploy. Mesma mágica, caminhos diferentes.",
+    "examples.left.label": "Netlify + Codex",
+    "examples.right.label": "GCP Cloud Run + Claude",
+
+    // Try It
+    "tryit.title": "Try It Yourself",
+    "tryit.subtitle": "Simulate the entire pre-commit pipeline. Make choices and see the magic happen.",
 
     // Features
     "features.title": "Funcionalidades",

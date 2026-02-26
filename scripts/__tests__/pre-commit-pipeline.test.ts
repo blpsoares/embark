@@ -65,7 +65,7 @@ async function createTestPackage(
   }
 }
 
-async function countFiles(dir: string, pattern?: string): Promise<number> {
+async function countFiles(dir: string, pattern?: string | RegExp): Promise<number> {
   if (!existsSync(dir)) return 0;
   const files = await readdir(dir);
   if (!pattern) return files.length;

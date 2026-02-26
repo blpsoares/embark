@@ -58,6 +58,7 @@
           <span></span>
         </button>
         <ul class="nav-links" id="nav-links">
+          <li><a href="#hero" class="nav-home" data-i18n="nav.home">Embark</a></li>
           <li><a href="#use-cases" data-i18n="nav.useCases">Use Cases</a></li>
           <li><a href="#why-embark" data-i18n="nav.why">Why Embark</a></li>
           <li><a href="#how-it-works" data-i18n="nav.how">How It Works</a></li>
@@ -216,9 +217,6 @@
             <div class="terminal-line" data-delay="8500">
               <span class="prompt">$</span> <span class="cmd" data-text="git push origin main"></span>
             </div>
-            <div class="terminal-line output" data-delay="10000">
-              <span data-text="🚀 Deployed to Cloud Run! https://my-awesome-app.run.app"></span>
-            </div>
           </div>
         </div>
       </div>
@@ -274,6 +272,153 @@
           <div class="pipeline-info">
             <h3 data-i18n="commit.step5.title">Update README</h3>
             <p data-i18n="commit.step5.desc">Auto-updates the packages table in README.md. New packages appear, deleted ones disappear.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Commit Flow Examples -->
+    <section id="commit-examples">
+      <h2 class="section-title" data-i18n="examples.title">Real Workflows in Action</h2>
+      <p class="section-subtitle" data-i18n="examples.subtitle">Two packages, two AI models, two deploy targets. Same magic, different paths.</p>
+
+      <div class="dual-terminal-container">
+        <!-- Left Terminal: Netlify + Codex -->
+        <div class="terminal-wrapper left">
+          <div class="terminal-label" data-i18n="examples.left.label">Netlify + Codex</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">my-landing-site</span>
+            </div>
+            <div class="terminal-body" id="terminal-left">
+              <div class="terminal-line" data-delay="0">
+                <span class="prompt">$</span> <span class="cmd" data-text="git add . && git commit -m &quot;feat: landing&quot;"></span>
+              </div>
+              <div class="terminal-line output rocket" data-delay="1200">
+                <span data-text="🚀 Package &quot;my-landing-site&quot; needs a deploy configuration"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="1800">
+                <span data-text="? Choose deploy target: Netlify"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="2400">
+                <span data-text="✓ Created .embark.jsonc for my-landing-site (deploy: netlify)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="3000">
+                <span data-text="✓ Created netlify.toml"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3600">
+                <span data-text="? Generate a Dockerfile for this package? Yes"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="4200">
+                <span data-text="? Dockerfile Generation Method: AI"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="4800">
+                <span data-text="🤖 AI Provider Selection: Codex"></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="5400">
+                <span data-text="⏳ Generating Dockerfile with codex..."></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="7200">
+                <span data-text="⏳ Receiving data... (2048 bytes)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="8800">
+                <span data-text="✓ CODEX generated Dockerfile successfully (2048 bytes received)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="9400">
+                <span data-text="✓ Packages added to git staging"></span>
+              </div>
+              <div class="terminal-line output" data-delay="10000">
+                <span data-text="[main abc123d] feat: landing"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Terminal: GCP Cloud Run + Claude -->
+        <div class="terminal-wrapper right">
+          <div class="terminal-label" data-i18n="examples.right.label">GCP Cloud Run + Claude</div>
+          <div class="terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">api-service</span>
+            </div>
+            <div class="terminal-body" id="terminal-right">
+              <div class="terminal-line" data-delay="0">
+                <span class="prompt">$</span> <span class="cmd" data-text="git add . && git commit -m &quot;feat: api&quot;"></span>
+              </div>
+              <div class="terminal-line output rocket" data-delay="1200">
+                <span data-text="🚀 Package &quot;api-service&quot; needs a deploy configuration"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="1800">
+                <span data-text="? Choose deploy target: Cloud Run"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="2400">
+                <span data-text="✓ Created .embark.jsonc for api-service (deploy: cloud-run)"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3000">
+                <span data-text="? Generate a Dockerfile? Yes"></span>
+              </div>
+              <div class="terminal-line output prompt" data-delay="3600">
+                <span data-text="? Dockerfile Generation Method: AI"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="4200">
+                <span data-text="🤖 AI Provider Selection: Claude"></span>
+              </div>
+              <div class="terminal-line output workflow" data-delay="4800">
+                <span data-text="🔧 Generating workflow..."></span>
+              </div>
+              <div class="terminal-line output success" data-delay="5400">
+                <span data-text="✓ Generated .github/workflows/api-service.yml"></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="6000">
+                <span data-text="⏳ Generating Dockerfile with claude..."></span>
+              </div>
+              <div class="terminal-line output processing" data-delay="8400">
+                <span data-text="⏳ Receiving data... (3456 bytes)"></span>
+              </div>
+              <div class="terminal-line output success" data-delay="10200">
+                <span data-text="✓ CLAUDE generated Dockerfile successfully (3456 bytes received)"></span>
+              </div>
+              <div class="terminal-line output info" data-delay="10800">
+                <span data-text="📄 Updating README packages table..."></span>
+              </div>
+              <div class="terminal-line output success" data-delay="11400">
+                <span data-text="✓ Packages added to git staging"></span>
+              </div>
+              <div class="terminal-line output" data-delay="12000">
+                <span data-text="[main def456e] feat: api"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Try It — Interactive Terminal -->
+    <section id="try-it">
+      <h2 class="section-title" data-i18n="tryit.title">Try It Yourself</h2>
+      <p class="section-subtitle" data-i18n="tryit.subtitle">Simulate the entire pre-commit pipeline. Make choices and see the magic happen.</p>
+
+      <div class="interactive-terminal-wrapper">
+        <div class="terminal">
+          <div class="terminal-header">
+            <span class="terminal-dot red"></span>
+            <span class="terminal-dot yellow"></span>
+            <span class="terminal-dot green"></span>
+            <span class="terminal-title">embark-simulator</span>
+          </div>
+          <div class="terminal-body" id="interactive-terminal">
+            <div class="terminal-line">
+              <span class="prompt">$</span> <span class="cmd">git add . && git commit -m "feat: my-app"</span>
+            </div>
+          </div>
+          <div class="terminal-input-area">
+            <div class="terminal-choices" id="choices-container" style="display: none;"></div>
           </div>
         </div>
       </div>
@@ -385,15 +530,6 @@
       </div>
     </section>
 
-    <!-- Architecture -->
-    <section id="architecture">
-      <h2 class="section-title" data-i18n="arch.title">Architecture</h2>
-      <p class="section-subtitle" data-i18n="arch.subtitle">A clean, opinionated structure. Every file has a purpose.</p>
-      <div class="architecture-container">
-        <pre class="file-tree" id="file-tree"><code></code></pre>
-      </div>
-    </section>
-
     <!-- Get Started -->
     <section id="get-started">
       <h2 class="section-title" data-i18n="start.title">Get Started</h2>
@@ -455,6 +591,15 @@ git push origin main
 # 🚀 Auto-deployed to Cloud Run!</code></pre>
           </div>
         </div>
+      </div>
+    </section>
+
+    <!-- Architecture -->
+    <section id="architecture">
+      <h2 class="section-title" data-i18n="arch.title">Architecture</h2>
+      <p class="section-subtitle" data-i18n="arch.subtitle">A clean, opinionated structure. Every file has a purpose.</p>
+      <div class="architecture-container">
+        <pre class="file-tree" id="file-tree"><code></code></pre>
       </div>
     </section>
 

@@ -120,8 +120,7 @@ On `git commit`, these scripts run automatically:
 | 3 | `sync-workflows.ts` | Syncs existing workflows with template |
 | 4 | `cleanup-orphan-workflows.ts` | Removes workflows for deleted/external packages |
 | 5 | `generate-dockerfiles-ai.ts` | Generates Dockerfiles (AI or default) |
-| 6 | `update-readme-packages.ts` | Updates the packages table below |
-| 7 | `update-version-badge.ts` | Syncs version badge in README |
+| 6 | `update-readme-packages.ts` | Updates the packages table in README |
 
 ## Pre-push Hooks
 
@@ -143,7 +142,6 @@ embark/
 │   ├── sync-workflows.ts      # sync workflows with template
 │   ├── cleanup-orphan-workflows.ts # remove orphaned workflows
 │   ├── update-readme-packages.ts   # auto-update README table
-│   ├── update-version-badge.ts     # sync version badge
 │   └── __tests__/             # tests for all scripts
 ├── templates/
 │   └── workflow.template.yml  # GitHub Actions base template
@@ -193,6 +191,18 @@ commit → push to main
 
 **Unchanged packages are never rebuilt or redeployed.**
 
+## Release (Monorepo Versioning)
+
+When changes are pushed to `main` **outside of `packages/`** (scripts, workflows, templates, docs), a release workflow automatically:
+
+1. **Bumps version** — patch increment (e.g., 1.0.0 → 1.0.1)
+2. **Updates `package.json`** — root monorepo version
+3. **Updates README badges** — version badge reflects new version
+4. **Creates Git tag** — e.g., `v1.0.1`
+5. **Creates GitHub Release** — with automatic changelog
+
+> **Note**: Changes inside `packages/` do NOT trigger releases. Each package manages its own versioning independently.
+
 ## Packages
 
 <!-- PACKAGES:START -->
@@ -201,10 +211,34 @@ commit → push to main
 | `showcase` | Embark showcase website — ship vibe-coded apps with zero-config CI/CD |
 <!-- PACKAGES:END -->
 
+### Showcase Website
+
+The showcase demonstrates Embark's capabilities with an interactive, fully-animated landing page:
+
+**Features:**
+- 🎨 **Interactive Terminal** — Simulate the entire pre-commit pipeline with keyboard navigation (↑↓ arrows + Enter)
+- 🎬 **Animated Sections** — Scroll-triggered animations using Three.js, GSAP, and ScrollTrigger
+- 📱 **Responsive Design** — Glassmorphism UI with neon accents and dark theme
+- 💻 **Real Workflow Visualization** — Side-by-side dual terminals showing Netlify + Cloud Run deployments
+- ⌨️ **Keyboard Interactive** — Try different deployment paths with full keyboard support
+- 🔄 **Reset Button** — Replay the simulation anytime
+
+**Tech Stack:**
+- Vite + vanilla TypeScript
+- Three.js for 3D animations
+- GSAP + ScrollTrigger for scroll effects
+- Custom CSS with CSS variables
+- Responsive and performance-optimized
+
+**Running Locally:**
+```bash
+bun run --filter @embark/showcase dev
+bun run --filter @embark/showcase build
+```
+
 ---
 
 <p align="center">
   <img src=".github/logo.png" alt="Embark" width="64" style="display:block;margin:0.5rem auto 0.5rem;" />
   Made with vibes by <a href="https://github.com/blpsoares">@blpsoares</a>
 </p>
-teste

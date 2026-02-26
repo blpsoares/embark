@@ -334,17 +334,24 @@ async function generateDockerfileWithAi(packageDir: string, packageName: string,
 
     const prompt = await buildPrompt(packageDir, packageName);
     let output = "";
+    let bytesReceived = 0;
 
     const response = await executeAiCli(provider, prompt, (chunk) => {
       output += chunk;
+      bytesReceived += chunk.length;
+      // Update progress line with byte counter
+      write(`${CURSOR.clearLine}  ${COLOR.dim}⏳ Receiving data... ${COLOR.gray}(${bytesReceived} bytes)${COLOR.reset}`);
     });
+
+    write(`\n`); // Move to next line after progress update
 
     const dockerfile = cleanAiResponse(response);
     await writeFile(dockerfilePath, dockerfile, "utf-8");
 
-    write(`  ${COLOR.green}✓${COLOR.reset} ${provider.toUpperCase()} generated Dockerfile successfully\n`);
+    write(`  ${COLOR.green}✓${COLOR.reset} ${provider.toUpperCase()} generated Dockerfile successfully ${COLOR.gray}(${bytesReceived} bytes received)${COLOR.reset}\n`);
     return true;
   } catch (error) {
+    write(`\n`); // Move to next line after progress update
     write(`  ${COLOR.dim}ℹ${COLOR.reset} Could not generate with ${provider}: ${error instanceof Error ? error.message : "Unknown error"}\n`);
     write(`  ${COLOR.dim}→${COLOR.reset} Falling back to default Dockerfile\n`);
     const created = await processPackageDockerfile(packageName, packageDir);
