@@ -1,22 +1,123 @@
-# Embark
+<p align="center">
+  <img src=".github/logo.png" alt="Embark" width="200" />
+</p>
 
-A monorepo framework for shipping **vibe-coded apps** with zero-config CI/CD, Docker, and Cloud Run deployment. Create a package, commit, push — it's deployed.
+<h1 align="center">Embark</h1>
+
+<p align="center">
+  Ship <strong>vibe-coded apps</strong> with zero-config CI/CD, Docker, and Cloud Run deployment.
+</p>
+
+<p align="center">
+  <!-- VERSION:START -->
+![version](https://img.shields.io/badge/version-1.0.0-818cf8?style=for-the-badge)
+<!-- VERSION:END -->
+  ![bun](https://img.shields.io/badge/Bun-1.3.9-f9f1e1?style=for-the-badge&logo=bun&logoColor=black)
+  ![typescript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=for-the-badge&logo=typescript&logoColor=white)
+  ![license](https://img.shields.io/badge/license-MIT-22d3ee?style=for-the-badge)
+  ![tests](https://img.shields.io/badge/tests-106%20passing-28c840?style=for-the-badge)
+  ![coverage](https://img.shields.io/badge/coverage-77%25-a78bfa?style=for-the-badge)
+</p>
+
+---
+
+## What is Embark?
+
+A monorepo framework that automates everything between **code** and **production**. Create a package, commit, push — it's deployed. Each package in the monorepo is published individually: a push only deploys new or changed packages, not everything.
+
+### Key Concepts
+
+- **One push ≠ deploy everything** — Only packages with actual changes are built and deployed. The rest stay untouched.
+- **Each package = its own pipeline** — Every package gets a dedicated GitHub Actions workflow with path filters.
+- **Choose your infra** — Cloud Run with auto-generated Docker + CI/CD, or Netlify with just a config file. Per package.
+- **Zero config** — Workflows, Dockerfiles, and README are auto-generated on commit. You just write code.
 
 ## Stack
 
-- **Runtime:** [Bun](https://bun.sh)
-- **Language:** TypeScript (strict mode)
-- **Workspaces:** Bun workspaces (`packages/*`)
-- **CI/CD:** GitHub Actions + Docker + Google Cloud Run
-- **Hooks:** Husky (pre-commit & pre-push)
+| Tool | Role |
+|------|------|
+| [Bun](https://bun.sh) | Runtime, bundler, test runner, package manager |
+| TypeScript | Strict mode, no `any` |
+| GitHub Actions | Auto-generated CI/CD per package |
+| Docker | Auto-generated Dockerfiles (AI or default) |
+| Cloud Run | Serverless container deploy |
+| Netlify | Static/JAMstack deploy (no Docker needed) |
+| Husky | Git hooks (pre-commit & pre-push) |
 
-## Root Scripts
+## Getting Started
 
-| Script | Command | Description |
-|--------|---------|-------------|
-| `new-package` | `bun run new-package` | Interactively create a new package |
-| `test` | `bun run test` | Run script tests with coverage |
-| `sync-workflows` | `bun run sync-workflows` | Sync workflows with template |
+```bash
+# clone & install
+git clone https://github.com/blpsoares/embark.git
+cd embark
+bun install
+
+# create a new package (interactive)
+bun run new-package
+
+# commit — automations run automatically
+git add . && git commit -m "feat: my new app"
+
+# push — only changed packages deploy
+git push origin main
+```
+
+## Creating a New Package
+
+```bash
+bun run new-package
+```
+
+The CLI will:
+1. Ask for a **name** (camelCase or kebab-case)
+2. Ask for a **description**
+3. Ask for a **deploy target** (Cloud Run or Netlify)
+4. Create the complete structure:
+   - `packages/<name>/` with `src/index.ts`, `package.json`, `tsconfig.json`
+   - `.embark.json` with deploy config
+   - `netlify.toml` (if Netlify was chosen)
+5. Auto-add to git
+
+Then just commit — pre-commit hooks handle workflows, Dockerfiles, and README.
+
+## Deploy Targets
+
+### Cloud Run (default)
+
+Auto-generates a GitHub Actions workflow and Dockerfile. On push, builds a Docker image and deploys to Cloud Run.
+
+```json
+// .embark.json
+{ "deploy": "cloud-run" }
+```
+
+### Netlify
+
+No workflow, no Dockerfile. Just a `netlify.toml`. Connect the repo on Netlify and every push auto-deploys.
+
+```json
+// .embark.json
+{ "deploy": "netlify" }
+```
+
+You can **mix both** in the same monorepo — APIs on Cloud Run, frontends on Netlify.
+
+## Pre-commit Hooks
+
+On `git commit`, these scripts run automatically:
+
+| Order | Script | What it does |
+|-------|--------|-------------|
+| 1 | `generate-workflows.ts` | Creates GitHub Actions workflow for new packages |
+| 2 | `sync-workflows.ts` | Syncs existing workflows with template |
+| 3 | `cleanup-orphan-workflows.ts` | Removes workflows for deleted/netlify packages |
+| 4 | `generate-dockerfiles-ai.ts` | Generates Dockerfiles (AI or default) |
+| 5 | `update-readme-packages.ts` | Updates the packages table below |
+| 6 | `update-version-badge.ts` | Syncs version badge in README |
+
+## Pre-push Hooks
+
+On `git push`, the full test suite runs. Push is blocked if tests fail.
 
 ## Structure
 
@@ -26,11 +127,14 @@ embark/
 │   └── showcase/              # showcase website
 ├── scripts/                   # monorepo automations
 │   ├── create-package.ts      # interactive CLI to create packages
+│   ├── embark-config.ts       # shared deploy config reader
 │   ├── generate-workflows.ts  # auto GitHub Actions per package
+│   ├── generate-dockerfiles.ts # default Dockerfile generation
 │   ├── generate-dockerfiles-ai.ts # AI-powered Dockerfile generation
 │   ├── sync-workflows.ts      # sync workflows with template
 │   ├── cleanup-orphan-workflows.ts # remove orphaned workflows
-│   ├── update-readme-packages.ts # auto-update README table
+│   ├── update-readme-packages.ts   # auto-update README table
+│   ├── update-version-badge.ts     # sync version badge
 │   └── __tests__/             # tests for all scripts
 ├── templates/
 │   └── workflow.template.yml  # GitHub Actions base template
@@ -38,71 +142,13 @@ embark/
 └── .husky/                    # git hooks
 ```
 
-## Getting Started
+## Scripts
 
-```bash
-# install dependencies
-bun install
-
-# run a script for a specific package
-bun run --filter @embark/showcase dev
-
-# create a new package (interactive)
-bun run new-package
-```
-
-## Creating a New Package
-
-The easiest way is the interactive script:
-
-```bash
-bun run new-package
-```
-
-The script will:
-1. Ask for a name (accepts camelCase or kebab-case)
-2. Ask for a description
-3. Create the complete structure:
-   - `packages/<name>/` directory
-   - `src/index.ts` with placeholder
-   - `package.json` scoped as `@embark/<name>`
-   - `tsconfig.json` extending root
-4. Auto-add to git
-
-Then just commit — the pre-commit hooks handle the rest:
-- Generates `.github/workflows/<name>.yml`
-- Generates `Dockerfile` (with AI or default)
-- Updates the packages table in this README
-
-## Repository Rules
-
-### Mandatory Dockerfile
-
-Every package **must** have a `Dockerfile`. The pre-commit hook enforces this automatically.
-
-### Existing files are not overwritten
-
-If a package already has a `Dockerfile` or workflow, the generation scripts **won't modify them**. Manual customizations are preserved.
-
-### Selective Deploy
-
-Each package has its own workflow with `paths` filter. When you push to `main`:
-- Changed `packages/showcase/**` → only showcase deploys
-- Changed multiple packages → only those deploy
-
-## Pre-commit Hooks
-
-On `git commit`, Husky runs these scripts in order:
-
-1. **`generate-workflows.ts`** — Generates workflows for new packages
-2. **`sync-workflows.ts`** — Syncs existing workflows with template
-3. **`cleanup-orphan-workflows.ts`** — Removes workflows for deleted packages
-4. **`generate-dockerfiles-ai.ts`** — Generates Dockerfiles (AI or default) for packages missing them
-5. **`update-readme-packages.ts`** — Updates the packages table below
-
-## Pre-push Hooks
-
-On `git push`, tests run automatically. Push is blocked if tests fail.
+| Script | Command | Description |
+|--------|---------|-------------|
+| `new-package` | `bun run new-package` | Interactively create a new package |
+| `test` | `bun run test` | Run script tests with coverage |
+| `sync-workflows` | `bun run sync-workflows` | Sync workflows with template |
 
 ## Tests
 
@@ -116,9 +162,7 @@ bun test scripts/__tests__/create-package.test.ts
 
 Coverage threshold: **77%** (configured in `bunfig.toml`)
 
-## Deploy
-
-Each package is deployed separately to **Google Cloud Run** via GitHub Actions.
+## Deploy (Cloud Run)
 
 ### Required GitHub Secrets
 
@@ -133,10 +177,12 @@ Each package is deployed separately to **Google Cloud Run** via GitHub Actions.
 ```
 commit → push to main
   → GitHub Actions detects which packages/ changed
-    → Build Docker image
+    → Build Docker image (only for changed packages)
       → Push to Artifact Registry
         → Deploy to Cloud Run
 ```
+
+**Unchanged packages are never rebuilt or redeployed.**
 
 ## Packages
 
@@ -145,3 +191,9 @@ commit → push to main
 |---------|-------------|
 | `showcase` | Embark showcase website — ship vibe-coded apps with zero-config CI/CD |
 <!-- PACKAGES:END -->
+
+---
+
+<p align="center">
+  Made with vibes by <a href="https://github.com/blpsoares">@blpsoares</a>
+</p>
