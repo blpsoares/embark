@@ -190,7 +190,7 @@ code {
 }
 
 .nav-logo-img {
-  height: 50px;
+  height: 70px;
   width: auto;
   object-fit: contain;
   display: block;
@@ -2043,12 +2043,12 @@ code {
 }
 
 .footer-logo-img {
-  height: 100px;
+  height: 160px;
   width: auto;
   object-fit: contain;
   display: block;
-  margin: 0 auto 1.5rem;
-  filter: drop-shadow(0 0 20px rgba(34, 211, 238, 0.4));
+  margin: 0 auto 2rem;
+  filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.5));
 }
 
 .footer-brand p {
