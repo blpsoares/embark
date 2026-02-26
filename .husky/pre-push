@@ -1,6 +1,3 @@
-#!/bin/sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 echo "🧪 Running tests..."
 bun test scripts/__tests__
 

@@ -56,7 +56,11 @@ export async function cleanOrphanWorkflows(
   }
 
   if (hasChanges) {
-    execSync("git add .github/workflows/", { cwd: root, stdio: "inherit" });
+    try {
+      execSync("git add .github/workflows/", { cwd: root, stdio: "inherit" });
+    } catch {
+      // May fail in test environments where cwd is not a git repo
+    }
   } else {
     console.log("[cleanup-orphan] no orphan workflows found");
   }
