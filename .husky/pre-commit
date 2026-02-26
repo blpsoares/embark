@@ -1,0 +1,5 @@
+bun run scripts/generate-workflows.ts
+bun run scripts/sync-workflows.ts
+bun run scripts/cleanup-orphan-workflows.ts
+bun run scripts/generate-dockerfiles-ai.ts
+bun run scripts/update-readme-packages.ts

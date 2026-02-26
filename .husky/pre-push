@@ -1,0 +1,20 @@
+#!/bin/sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "🧪 Running tests..."
+bun test scripts/__tests__
+
+TEST_EXIT_CODE=$?
+
+# Always clean test artifacts, even if tests fail
+echo ""
+echo "🧹 Cleaning test artifacts..."
+bun scripts/cleanup-test-artifacts.ts
+
+if [ $TEST_EXIT_CODE -ne 0 ]; then
+  echo "❌ Tests failed. Push blocked."
+  exit 1
+fi
+
+echo "✅ Tests passed!"
+exit 0

@@ -1,0 +1,22 @@
+import "./style.css";
+import { initHero } from "./hero";
+import { initStats } from "./stats";
+import { initTerminal } from "./terminal";
+import { initPipeline } from "./pipeline";
+import { initFeatures } from "./features";
+import { initArchitecture } from "./architecture";
+import { initStackCards } from "./stackCards";
+import { initGetStarted } from "./getStarted";
+import { initCursor } from "./cursor";
+import { initScrollProgress } from "./scrollProgress";
+
+initScrollProgress();
+initCursor();
+initHero();
+initStats();
+initTerminal();
+initPipeline();
+initFeatures();
+initArchitecture();
+initStackCards();
+initGetStarted();
