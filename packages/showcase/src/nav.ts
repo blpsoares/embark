@@ -2,10 +2,12 @@
  * Initialize main navigation menu with:
  * - Mobile hamburger toggle
  * - Active section highlighting on scroll
+ * - Scroll effect styling
  * - Smooth scroll behavior
  */
 
 export function initNav(): void {
+  const nav = document.getElementById("main-nav") as HTMLElement | null;
   const navToggle = document.getElementById("nav-toggle") as HTMLButtonElement | null;
   const navLinks = document.getElementById("nav-links") as HTMLElement | null;
   const navItems = document.querySelectorAll(".nav-links a");
@@ -26,10 +28,19 @@ export function initNav(): void {
     });
   });
 
-  // Update active link on scroll
+  // Update active link and nav styling on scroll
   function updateActiveLink(): void {
     let current = "";
     const sections = document.querySelectorAll("section[id]");
+
+    // Add scrolled class to nav
+    if (nav) {
+      if (window.scrollY > 10) {
+        nav.classList.add("scrolled");
+      } else {
+        nav.classList.remove("scrolled");
+      }
+    }
 
     sections.forEach((section) => {
       const sectionTop = (section as HTMLElement).offsetTop;
@@ -48,6 +59,6 @@ export function initNav(): void {
     });
   }
 
-  window.addEventListener("scroll", updateActiveLink);
+  window.addEventListener("scroll", updateActiveLink, { passive: true });
   updateActiveLink(); // Call once on init
 }
