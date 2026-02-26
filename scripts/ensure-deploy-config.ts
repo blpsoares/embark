@@ -1,6 +1,7 @@
-import { readdir } from "node:fs/promises";
+import { readdir, readFile } from "node:fs/promises";
 import { writeFile } from "node:fs/promises";
 import { execSync } from "node:child_process";
+import { spawn } from "node:child_process";
 import { join } from "node:path";
 import * as readline from "node:readline";
 import * as fs from "node:fs";
@@ -11,6 +12,18 @@ import { processPackageDockerfile } from "./generate-dockerfiles";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
+const PROMPT_PATH = join(ROOT, "prompts", "dockerfileGen.prompt.md");
+
+// ── AI CLI types ────────────────────────────────────────────
+interface AiCli {
+  name: string;
+  command: string;
+}
+
+interface AiCommand {
+  bin: string;
+  args: string[];
+}
 
 // ── ANSI colors ────────────────────────────────────────────
 const COLOR = {
@@ -202,6 +215,143 @@ async function askAiProvider(): Promise<string> {
   return providers[selected] ?? "claude";
 }
 
+// ── AI Dockerfile Generation ────────────────────────────────
+async function listFiles(directory: string, prefix = ""): Promise<string[]> {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files: string[] = [];
+
+  for (const entry of entries) {
+    const relativePath = prefix ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.name === "node_modules" || entry.name === "dist" || entry.name === ".git") continue;
+
+    if (entry.isDirectory()) {
+      const sub = await listFiles(join(directory, entry.name), relativePath);
+      files.push(...sub);
+    } else {
+      files.push(relativePath);
+    }
+  }
+
+  return files;
+}
+
+async function loadPromptTemplate(): Promise<string> {
+  return readFile(PROMPT_PATH, "utf-8");
+}
+
+async function buildPrompt(packageDir: string, packageName: string): Promise<string> {
+  const template = await loadPromptTemplate();
+  const pkgJsonPath = join(packageDir, "package.json");
+  const pkgJson = await readFile(pkgJsonPath, "utf-8");
+  const files = await listFiles(packageDir);
+
+  return template
+    .replace("{{PACKAGE_NAME}}", packageName)
+    .replace("{{PACKAGE_JSON}}", pkgJson)
+    .replace("{{FILE_STRUCTURE}}", files.join("\n"));
+}
+
+function buildCommand(provider: string, prompt: string): AiCommand {
+  const commands: Record<string, AiCommand> = {
+    gemini: { bin: "gemini", args: ["-p", prompt] },
+    claude: { bin: "claude", args: ["--dangerously-skip-permissions", prompt] },
+    copilot: { bin: "copilot", args: ["-p", prompt, "--allow-all"] },
+    codex: { bin: "codex", args: ["exec", prompt] },
+  };
+
+  const cmd = commands[provider];
+  if (!cmd) {
+    throw new Error(`Command not defined for AI provider: ${provider}`);
+  }
+  return cmd;
+}
+
+function executeAiCli(provider: string, prompt: string, onData: (chunk: string) => void): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const { bin, args } = buildCommand(provider, prompt);
+    const proc = spawn(bin, args, { cwd: ROOT, stdio: ["ignore", "pipe", "pipe"] });
+
+    let stdout = "";
+    let stderr = "";
+    let finished = false;
+
+    const timer = setTimeout(() => {
+      if (!finished) {
+        proc.kill();
+        reject(new Error(`${provider} exceeded the 2-minute timeout`));
+      }
+    }, 120_000);
+    timer.unref();
+
+    proc.stdout?.on("data", (data: Buffer) => {
+      const text = data.toString();
+      stdout += text;
+      onData(text);
+    });
+
+    proc.stderr?.on("data", (data: Buffer) => {
+      stderr += data.toString();
+    });
+
+    proc.on("close", (code) => {
+      finished = true;
+      clearTimeout(timer);
+
+      if (stdout.trim().length > 0) {
+        resolve(stdout.trim());
+      } else if (code !== 0) {
+        reject(new Error(`${provider} exited with code ${code}: ${stderr}`));
+      } else {
+        resolve(stdout.trim());
+      }
+    });
+
+    proc.on("error", (err) => {
+      finished = true;
+      clearTimeout(timer);
+      reject(err);
+    });
+  });
+}
+
+function cleanAiResponse(response: string): string {
+  let cleaned = response;
+  cleaned = cleaned.replace(/^```[\w]*\n?/gm, "").replace(/\n?```$/gm, "");
+
+  const fromIndex = cleaned.indexOf("FROM");
+  if (fromIndex > 0) {
+    cleaned = cleaned.slice(fromIndex);
+  }
+
+  return cleaned.trim() + "\n";
+}
+
+async function generateDockerfileWithAi(packageDir: string, packageName: string, provider: string): Promise<boolean> {
+  const dockerfilePath = join(packageDir, "Dockerfile");
+
+  try {
+    write(`  ${COLOR.dim}⏳ Generating Dockerfile with ${provider}...${COLOR.reset}\n`);
+
+    const prompt = await buildPrompt(packageDir, packageName);
+    let output = "";
+
+    const response = await executeAiCli(provider, prompt, (chunk) => {
+      output += chunk;
+    });
+
+    const dockerfile = cleanAiResponse(response);
+    await writeFile(dockerfilePath, dockerfile, "utf-8");
+
+    write(`  ${COLOR.green}✓${COLOR.reset} ${provider.toUpperCase()} generated Dockerfile successfully\n`);
+    return true;
+  } catch (error) {
+    write(`  ${COLOR.dim}ℹ${COLOR.reset} Could not generate with ${provider}: ${error instanceof Error ? error.message : "Unknown error"}\n`);
+    write(`  ${COLOR.dim}→${COLOR.reset} Falling back to default Dockerfile\n`);
+    const created = await processPackageDockerfile(packageName, packageDir);
+    return created;
+  }
+}
+
 function buildNetlifyToml(buildCommand: string, publishDir: string): string {
   return `[build]
   command = "${buildCommand}"
@@ -279,7 +429,7 @@ ${JSON.stringify(config, null, 2)}
           if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
           const aiProvider = await askAiProvider();
-          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
+          await generateDockerfileWithAi(packageDir, packageName, aiProvider);
         }
       }
     }
@@ -302,7 +452,7 @@ ${JSON.stringify(config, null, 2)}
           if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
           const aiProvider = await askAiProvider();
-          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
+          await generateDockerfileWithAi(packageDir, packageName, aiProvider);
         }
       }
     }
@@ -322,7 +472,7 @@ ${JSON.stringify(config, null, 2)}
           if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
           const aiProvider = await askAiProvider();
-          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
+          await generateDockerfileWithAi(packageDir, packageName, aiProvider);
         }
       }
     }
