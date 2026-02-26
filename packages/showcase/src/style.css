@@ -104,8 +104,7 @@ code {
 @media (max-width: 768px) {
   #lang-toggle {
     padding: 3px;
-    flex: 1;
-    justify-content: center;
+    margin: 0 auto;
   }
 
   .lang-btn {
