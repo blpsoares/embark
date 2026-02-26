@@ -927,7 +927,7 @@ code {
   perspective: 1000px;
 }
 
-.interactive-terminal-wrapper .terminal {
+.interactive-terminal-wrapper .terminal-body {
   border-color: rgba(34, 211, 238, 0.3);
   box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5),
               0 0 40px rgba(34, 211, 238, 0.1);
@@ -936,22 +936,22 @@ code {
   scroll-behavior: smooth;
 }
 
-.interactive-terminal-wrapper .terminal::-webkit-scrollbar {
+.interactive-terminal-wrapper .terminal-body::-webkit-scrollbar {
   width: 6px;
 }
 
-.interactive-terminal-wrapper .terminal::-webkit-scrollbar-track {
+.interactive-terminal-wrapper .terminal-body::-webkit-scrollbar-track {
   background: rgba(34, 211, 238, 0.05);
   border-radius: 3px;
 }
 
-.interactive-terminal-wrapper .terminal::-webkit-scrollbar-thumb {
+.interactive-terminal-wrapper .terminal-body::-webkit-scrollbar-thumb {
   background: rgba(34, 211, 238, 0.3);
   border-radius: 3px;
   transition: background 0.3s ease;
 }
 
-.interactive-terminal-wrapper .terminal::-webkit-scrollbar-thumb:hover {
+.interactive-terminal-wrapper .terminal-body::-webkit-scrollbar-thumb:hover {
   background: rgba(34, 211, 238, 0.5);
 }
 
@@ -1012,7 +1012,7 @@ code {
 @media (max-width: 1024px) {
   .dual-terminal-container {
     grid-template-columns: 1fr;
-    gap: 3rem;
+    gap: 5rem;
   }
 
   .terminal-label {

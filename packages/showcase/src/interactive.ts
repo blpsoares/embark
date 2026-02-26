@@ -18,11 +18,15 @@ export function initInteractive() {
     refreshBtn.className = "terminal-refresh-btn";
     refreshBtn.innerHTML = "🔄";
     refreshBtn.title = "Reset simulation";
-    refreshBtn.onclick = () => {
+    refreshBtn.onclick = async () => {
       if (terminal && !isSimulationRunning) {
         isSimulationRunning = true;
         terminal.innerHTML = "";
-        startSimulation();
+        try {
+          await startSimulation();
+        } finally {
+          isSimulationRunning = false;
+        }
       }
     };
     terminalHeader.appendChild(refreshBtn);
@@ -31,12 +35,16 @@ export function initInteractive() {
   let started = false;
 
   const observer = new IntersectionObserver(
-    (entries) => {
+    async (entries) => {
       for (const entry of entries) {
         if (entry.isIntersecting && !started && !isSimulationRunning) {
           started = true;
           isSimulationRunning = true;
-          startSimulation();
+          try {
+            await startSimulation();
+          } finally {
+            isSimulationRunning = false;
+          }
         }
       }
     },
@@ -67,9 +75,9 @@ async function startSimulation() {
     div.classList.add("visible");
 
     // Auto-scroll to bottom after render
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       terminal.scrollTop = terminal.scrollHeight;
-    });
+    }, 0);
   };
 
   const showMenu = async (question: string, options: string[]): Promise<number> => {
@@ -103,9 +111,9 @@ async function startSimulation() {
       terminal.appendChild(instructionsDiv);
       instructionsDiv.classList.add("visible");
 
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         terminal.scrollTop = terminal.scrollHeight;
-      });
+      }, 0);
 
       let currentIndex = 0;
 
