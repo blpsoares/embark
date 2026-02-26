@@ -105,6 +105,8 @@ code {
   #lang-toggle {
     padding: 3px;
     margin: 0 auto;
+    position: relative;
+    right: 20px;
   }
 
   .lang-btn {
@@ -1799,6 +1801,7 @@ code {
 @media (max-width: 768px) {
   .get-started-grid {
     grid-template-columns: 1fr;
+    gap: 4rem;
   }
 
   .code-block pre {
