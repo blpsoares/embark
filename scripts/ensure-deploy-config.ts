@@ -1,5 +1,5 @@
 import { readdir } from "node:fs/promises";
-import { writeFile, access } from "node:fs/promises";
+import { writeFile } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
 import * as readline from "node:readline";
@@ -36,34 +36,35 @@ let TTY_OUT: fs.WriteStream | null = null;
 function tryInitTty() {
   if (TTY_IN && TTY_OUT) return;
   try {
-    TTY_IN = fs.createReadStream(null as never, { fd: 0 });
-    TTY_OUT = fs.createWriteStream(null as never, { fd: 1 });
+    const fd = fs.openSync("/dev/tty", "r+");
+    const inStream = new tty.ReadStream(fd);
+    const outStream = fs.createWriteStream(null as any, { fd });
+    TTY_IN = inStream;
+    TTY_OUT = outStream;
   } catch {
-    // TTY not available
+    // TTY not available (e.g., in CI or some hook environments)
   }
 }
 
 function write(text: string) {
-  if (TTY_OUT) {
-    TTY_OUT.write(text);
-    return;
-  }
   process.stdout.write(text);
 }
 
 async function readKey(): Promise<string> {
-  return new Promise((resolve) => {
-    const dataHandler = (chunk: Buffer) => {
-      if (TTY_IN) {
-        TTY_IN.removeListener("data", dataHandler);
-        TTY_IN.setRawMode(false);
-      }
-      resolve(chunk.toString());
-    };
-
-    if (TTY_IN) {
-      TTY_IN.setRawMode(true);
-      TTY_IN.once("data", dataHandler);
+  return new Promise((resolve, reject) => {
+    // Prefer using the process stdin when it's a TTY
+    if (typeof process.stdin.setRawMode === "function" && process.stdin.isTTY) {
+      process.stdin.setRawMode(true);
+      process.stdin.resume();
+      process.stdin.once("data", (data) => {
+        try {
+          process.stdin.setRawMode(false);
+        } catch {}
+        process.stdin.pause();
+        resolve(data.toString());
+      });
+    } else {
+      reject(new Error("TTY not available"));
     }
   });
 }
@@ -89,11 +90,12 @@ function renderMenu(
 }
 
 async function menuSelect(title: string, options: string[]): Promise<number> {
-  // Fall back to simple prompt if no TTY
+  // If raw mode isn't available (e.g., non-TTY or some CI/hook environments),
+  // fall back to a numbered prompt using readline.
   if (typeof process.stdin.setRawMode !== "function" || !process.stdin.isTTY) {
-    write(`\n${COLOR.bold}${title}${COLOR.reset}\n`);
+    write(`${title}\n`);
     for (let i = 0; i < options.length; i++) {
-      write(`  ${COLOR.cyan}${i + 1}.${COLOR.reset} ${options[i]}\n`);
+      write(`  ${i + 1}. ${options[i]}\n`);
     }
     write(`\n`);
 
@@ -114,7 +116,7 @@ async function menuSelect(title: string, options: string[]): Promise<number> {
   const totalLines = options.length + 3;
 
   write(CURSOR.hide);
-  write(`  ${COLOR.bold}${title}${COLOR.reset}\n`);
+  write(`  ${title}\n`);
   write(`  ${COLOR.dim}↑/↓ navigate  │  Enter select  │  q cancel${COLOR.reset}\n`);
   write(`\n`);
 
@@ -132,7 +134,8 @@ async function menuSelect(title: string, options: string[]): Promise<number> {
     let key: string;
     try {
       key = await readKey();
-    } catch {
+    } catch (err) {
+      // If raw mode failed mid-loop, fall back to numeric prompt
       write(CURSOR.show);
       const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
       return new Promise((resolve) => {
@@ -196,6 +199,7 @@ export async function getPackagesWithoutConfig(
 }
 
 async function ensureDeployConfig() {
+  tryInitTty();
   const missing = await getPackagesWithoutConfig();
 
   if (missing.length === 0) {
