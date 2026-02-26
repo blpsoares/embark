@@ -196,6 +196,13 @@ code {
   opacity: 1;
 }
 
+.nav-logo-img {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
@@ -1892,7 +1899,7 @@ code {
   background: linear-gradient(135deg, rgba(129, 140, 248, 0.05) 0%, rgba(34, 211, 238, 0.05) 100%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
-  padding: 3rem 2rem 0 2rem;
+  padding: 3rem 2rem 3rem 2rem;
 }
 
 #ai-setup > * {
@@ -2040,6 +2047,15 @@ code {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+.footer-logo-img {
+  height: 60px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  margin: 0 auto 1rem;
+  filter: drop-shadow(0 0 16px rgba(34, 211, 238, 0.3));
 }
 
 .footer-brand p {
