@@ -20,6 +20,9 @@ const COLOR = {
   cyan: "\x1b[36m",
   green: "\x1b[32m",
   gray: "\x1b[90m",
+  yellow: "\x1b[33m",
+  blue: "\x1b[34m",
+  magenta: "\x1b[35m",
 } as const;
 
 // ── ANSI cursor ────────────────────────────────────────────
@@ -175,14 +178,28 @@ async function askYesNo(question: string): Promise<boolean> {
 }
 
 async function askDockerfileMethod(): Promise<"ai" | "default" | null> {
+  write(`\n${COLOR.bold}${COLOR.blue}? Dockerfile Generation Method${COLOR.reset}\n`);
   const selected = await menuSelect("How do you want to generate the Dockerfile?", [
-    "Yes, choose which AI to use",
+    "Yes, choose which AI to use (Gemini, Claude, Copilot, Codex)",
     "No, generate default Dockerfile",
   ]);
 
   if (selected === 0) return "ai";
   if (selected === 1) return "default";
   return null;
+}
+
+async function askAiProvider(): Promise<string> {
+  write(`\n${COLOR.bold}${COLOR.magenta}🤖 AI Provider Selection${COLOR.reset}\n`);
+  const selected = await menuSelect("Which AI CLI do you want to use?", [
+    "Gemini",
+    "Claude",
+    "Copilot",
+    "Codex",
+  ]);
+
+  const providers = ["gemini", "claude", "copilot", "codex"];
+  return providers[selected] ?? "claude";
 }
 
 function buildNetlifyToml(buildCommand: string, publishDir: string): string {
@@ -245,60 +262,67 @@ ${JSON.stringify(config, null, 2)}
 
     // Handle Netlify target
     if (target === "netlify") {
+      write(`\n${COLOR.bold}${COLOR.yellow}↳ Netlify Configuration${COLOR.reset}\n`);
+
       const netlifyToml = buildNetlifyToml("bun run build", "dist");
       await writeFile(join(packageDir, "netlify.toml"), netlifyToml);
-      write(`  ${COLOR.green}✓${COLOR.reset} Created netlify.toml for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+      write(`  ${COLOR.green}✓${COLOR.reset} Created netlify.toml\n`);
       write(
-        `  ${COLOR.dim}ℹ${COLOR.reset} Netlify deployment will be configured separately (no GitHub Actions workflow needed)\n`,
+        `  ${COLOR.dim}ℹ${COLOR.reset} Deployment will be configured via Netlify (no GitHub Actions workflow)\n`,
       );
 
-      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
+      const wantsDocker = await askYesNo("\n  Generate a Dockerfile for this package? (optional)");
       if (wantsDocker) {
         const method = await askDockerfileMethod();
         if (method === "default") {
           const created = await processPackageDockerfile(packageName, packageDir);
-          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
-          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+          const aiProvider = await askAiProvider();
+          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
         }
       }
     }
 
     // Handle "Other" target
     if (target === "other") {
+      write(`\n${COLOR.bold}${COLOR.yellow}↳ Custom Deploy Configuration${COLOR.reset}\n`);
       write(
-        `  ${COLOR.dim}ℹ${COLOR.reset} Custom deploy configuration detected. You'll need to:\n`,
+        `  ${COLOR.dim}ℹ${COLOR.reset} You'll need to manually configure:\n`,
       );
-      write(`    • Configure your deployment platform manually\n`);
-      write(`    • Add Dockerfile if your platform requires it\n`);
-      write(`    • Add GitHub Actions workflow if needed\n\n`);
+      write(`    • Your deployment platform\n`);
+      write(`    • Dockerfile (if required)\n`);
+      write(`    • GitHub Actions workflow (if needed)\n`);
 
-      const wantsDocker = await askYesNo("  Generate a Dockerfile for this package? (optional)");
+      const wantsDocker = await askYesNo("\n  Generate a Dockerfile for this package? (optional)");
       if (wantsDocker) {
         const method = await askDockerfileMethod();
         if (method === "default") {
           const created = await processPackageDockerfile(packageName, packageDir);
-          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
-          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+          const aiProvider = await askAiProvider();
+          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
         }
       }
     }
 
     // Handle Cloud Run target
     if (target === "cloud-run") {
-      write(`  ${COLOR.dim}ℹ${COLOR.reset} Google Cloud Run deployment will:\n`);
+      write(`\n${COLOR.bold}${COLOR.yellow}↳ Google Cloud Run Configuration${COLOR.reset}\n`);
+      write(`  ${COLOR.dim}ℹ${COLOR.reset} Cloud Run deployment will:\n`);
       write(`    • Auto-generate GitHub Actions workflow\n`);
-      write(`    • Auto-generate Dockerfile (optional)\n\n`);
+      write(`    • Auto-generate Dockerfile (optional)\n`);
 
-      const wantsDocker = await askYesNo("  Generate a Dockerfile? (recommended for Cloud Run)");
+      const wantsDocker = await askYesNo("\n  Generate a Dockerfile? (recommended for Cloud Run)");
       if (wantsDocker) {
         const method = await askDockerfileMethod();
         if (method === "default") {
           const created = await processPackageDockerfile(packageName, packageDir);
-          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Dockerfile generated for ${COLOR.cyan}${packageName}${COLOR.reset}\n`);
+          if (created) write(`  ${COLOR.green}✓${COLOR.reset} Default Dockerfile generated\n`);
         } else if (method === "ai") {
-          write(`  ${COLOR.dim}ℹ${COLOR.reset} AI Dockerfile generation will run at the end of this hook\n`);
+          const aiProvider = await askAiProvider();
+          write(`  ${COLOR.green}✓${COLOR.reset} ${aiProvider.toUpperCase()} AI will generate Dockerfile at end of hook\n`);
         }
       }
     }
