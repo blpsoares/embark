@@ -17,8 +17,40 @@ export function initNav(): void {
     navToggle.addEventListener("click", () => {
       navToggle.classList.toggle("active");
       navLinks?.classList.toggle("active");
+
+      // Adjust scroll progress bar position when menu opens/closes
+      updateScrollProgressPosition();
     });
   }
+
+  // Update scroll progress bar position based on menu state
+  function updateScrollProgressPosition(): void {
+    const scrollProgress = document.getElementById("scroll-progress");
+    if (!scrollProgress) return;
+
+    // Only adjust on mobile
+    if (window.innerWidth <= 768) {
+      if (navLinks?.classList.contains("active")) {
+        // Menu is open - position bar below the menu
+        const navHeight = nav?.offsetHeight || 60;
+        const menuHeight = navLinks.offsetHeight || 0;
+        scrollProgress.style.top = `${navHeight + menuHeight}px`;
+      } else {
+        // Menu is closed - position bar below the nav
+        const navHeight = nav?.offsetHeight || 60;
+        scrollProgress.style.top = `${navHeight}px`;
+      }
+    } else {
+      // Desktop - always at top
+      scrollProgress.style.top = "0px";
+    }
+  }
+
+  // Update on window resize
+  window.addEventListener("resize", updateScrollProgressPosition);
+
+  // Initial position update
+  updateScrollProgressPosition();
 
   // Close menu when link is clicked
   navItems.forEach((item) => {

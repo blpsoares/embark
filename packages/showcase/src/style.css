@@ -464,6 +464,12 @@ code {
   transition: width 0.1s linear;
 }
 
+@media (max-width: 768px) {
+  #scroll-progress {
+    top: 60px;
+  }
+}
+
 /* Custom Cursor */
 #custom-cursor {
   position: fixed;
