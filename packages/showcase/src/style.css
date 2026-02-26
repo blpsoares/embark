@@ -27,6 +27,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -741,6 +742,8 @@ code {
   line-height: 1.7;
   overflow-x: auto;
   color: var(--neon-cyan);
+  word-break: break-all;
+  white-space: pre-wrap;
 }
 
 .code-block pre code {
@@ -868,5 +871,22 @@ code {
   .btn,
   .copy-btn {
     cursor: auto;
+  }
+
+  section {
+    overflow-x: hidden;
+  }
+
+  .terminal-body {
+    font-size: 0.75rem;
+  }
+
+  .pipeline-step {
+    padding: 1.25rem 1rem;
+    gap: 1rem;
+  }
+
+  .hero-sub {
+    word-break: break-word;
   }
 }

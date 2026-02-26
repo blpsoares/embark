@@ -8,6 +8,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Inter:wght@300;400;600;800;900&display=swap" rel="stylesheet" />
+    <style>
+      /* Critical CSS — prevents FOUC */
+      body {
+        background: #0a0a0f;
+        color: #e4e4e7;
+        font-family: "Inter", system-ui, -apple-system, sans-serif;
+        margin: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      body.loaded {
+        opacity: 1;
+      }
+    </style>
   </head>
   <body>
     <div id="scroll-progress"></div>
@@ -356,5 +370,21 @@ git push origin main
     <div id="cursor-glow"></div>
 
     <script type="module" src="/src/main.ts"></script>
+    <script>
+      // Reveal page once styles and fonts are ready
+      if (document.fonts && document.fonts.ready) {
+        document.fonts.ready.then(function() {
+          document.body.classList.add('loaded');
+        });
+      } else {
+        window.addEventListener('load', function() {
+          document.body.classList.add('loaded');
+        });
+      }
+      // Fallback: reveal after 1s max
+      setTimeout(function() {
+        document.body.classList.add('loaded');
+      }, 1000);
+    </script>
   </body>
 </html>
