@@ -1899,6 +1899,13 @@ code {
   background: linear-gradient(135deg, rgba(129, 140, 248, 0.05) 0%, rgba(34, 211, 238, 0.05) 100%);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+#ai-setup > * {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .ai-setup-grid {
@@ -1938,6 +1945,9 @@ code {
   display: block;
   margin-left: auto;
   margin-right: auto;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px;
 }
 
 .ai-provider-icon-emoji {
@@ -1945,6 +1955,15 @@ code {
   margin-bottom: 1rem;
   display: block;
   text-align: center;
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .ai-setup-card h3 {
