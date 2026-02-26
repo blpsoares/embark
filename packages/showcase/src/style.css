@@ -104,6 +104,8 @@ code {
 @media (max-width: 768px) {
   #lang-toggle {
     padding: 3px;
+    flex: 1;
+    justify-content: center;
   }
 
   .lang-btn {
@@ -1700,10 +1702,10 @@ code {
 @media (max-width: 768px) {
   .file-tree {
     padding: 1rem;
-    font-size: 0.7rem;
-    line-height: 1.5;
+    font-size: 0.85rem;
+    line-height: 1.8;
     overflow-wrap: break-word;
-    word-break: break-all;
+    word-break: break-word;
   }
 }
 
@@ -1784,7 +1786,7 @@ code {
 .get-started-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
+  gap: 2.5rem;
 }
 
 @media (max-width: 768px) {
