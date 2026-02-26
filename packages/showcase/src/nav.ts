@@ -45,8 +45,11 @@ export function initNav(): void {
     sections.forEach((section) => {
       const sectionTop = (section as HTMLElement).offsetTop;
       const sectionHeight = (section as HTMLElement).clientHeight;
+      const sectionBottom = sectionTop + sectionHeight;
+      const scrollPosition = window.scrollY + 200;
 
-      if (window.scrollY >= sectionTop - 150) {
+      // Check if scroll position is within the section
+      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
         current = section.getAttribute("id") || "";
       }
     });

@@ -281,7 +281,7 @@ code {
 .nav-cta {
   background: linear-gradient(135deg, #818cf8, #22d3ee);
   color: #fff !important;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 0.65rem 1.3rem !important;
   margin-left: 0.8rem;
   position: relative;
@@ -457,11 +457,12 @@ code {
   position: fixed;
   top: 0;
   left: 0;
-  height: 3px;
+  height: 4px;
   width: 0%;
-  background: var(--gradient-glow);
+  background: linear-gradient(90deg, #818cf8, #06b6d4, #22d3ee);
   z-index: 9999;
   transition: width 0.1s linear;
+  box-shadow: 0 0 10px rgba(34, 211, 238, 0.4);
 }
 
 /* Custom Cursor */
