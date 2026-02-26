@@ -67,9 +67,9 @@ async function startSimulation() {
     div.classList.add("visible");
 
     // Auto-scroll to bottom after render
-    requestAnimationFrame(() => {
+    setTimeout(() => {
       terminal.scrollTop = terminal.scrollHeight;
-    });
+    }, 0);
   };
 
   const showMenu = async (question: string, options: string[]): Promise<number> => {
@@ -103,9 +103,9 @@ async function startSimulation() {
       terminal.appendChild(instructionsDiv);
       instructionsDiv.classList.add("visible");
 
-      requestAnimationFrame(() => {
+      setTimeout(() => {
         terminal.scrollTop = terminal.scrollHeight;
-      });
+      }, 0);
 
       let currentIndex = 0;
 
