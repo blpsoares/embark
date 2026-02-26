@@ -109,6 +109,36 @@ For packages deployed elsewhere (Vercel, Fly.io, AWS, etc.). No workflow, no Doc
 
 You can **mix all three** in the same monorepo — APIs on Cloud Run, frontends on Netlify, custom infra elsewhere.
 
+## AI CLIs for Dockerfile Generation
+
+When generating Dockerfiles with AI, you can choose your favorite AI provider. Install any (or all) of these CLIs:
+
+### Copilot (GitHub)
+
+```bash
+npm install -g @github/copilot
+```
+
+### Claude (Anthropic)
+
+```bash
+curl -fsSL https://claude.ai/install.sh | bash
+```
+
+### Codex (OpenAI)
+
+```bash
+npm install -g @openai/codex
+```
+
+### Gemini (Google)
+
+```bash
+npm install -g @google/gemini-cli
+```
+
+**Usage:** When creating a new package or generating a Dockerfile, Embark will ask which AI provider you'd like to use. The CLI will send your `package.json` and file structure to the chosen provider, which will generate an optimized Dockerfile.
+
 ## Pre-commit Hooks
 
 On `git commit`, these scripts run automatically:

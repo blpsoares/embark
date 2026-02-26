@@ -399,6 +399,58 @@
       </div>
     </section>
 
+    <!-- AI CLIs Setup -->
+    <section id="ai-setup">
+      <h2 class="section-title" data-i18n="aiSetup.title">AI-Powered Dockerfile Generation</h2>
+      <p class="section-subtitle" data-i18n="aiSetup.subtitle">Choose your favorite AI provider and let it generate optimized Dockerfiles for your apps.</p>
+
+      <div class="ai-setup-grid">
+        <div class="ai-setup-card">
+          <div class="ai-provider-icon copilot">🤖</div>
+          <h3 data-i18n="aiSetup.copilot.name">Copilot</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.copilot.by">by GitHub</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @github/copilot</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <div class="ai-provider-icon claude">🧠</div>
+          <h3 data-i18n="aiSetup.claude.name">Claude</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.claude.by">by Anthropic</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>curl -fsSL https://claude.ai/install.sh | bash</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <div class="ai-provider-icon codex">⚡</div>
+          <h3 data-i18n="aiSetup.codex.name">Codex</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.codex.by">by OpenAI</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @openai/codex</code></pre>
+          </div>
+        </div>
+
+        <div class="ai-setup-card">
+          <div class="ai-provider-icon gemini">✨</div>
+          <h3 data-i18n="aiSetup.gemini.name">Gemini</h3>
+          <p class="ai-provider-by" data-i18n="aiSetup.gemini.by">by Google</p>
+          <div class="code-block ai-setup-code">
+            <button class="copy-btn" aria-label="Copy to clipboard">📋</button>
+            <pre><code>npm install -g @google/gemini-cli</code></pre>
+          </div>
+        </div>
+      </div>
+
+      <div class="ai-setup-note">
+        <p data-i18n="aiSetup.note">Install any or all of these CLIs. When you run <code>bun run new-package</code>, Embark will ask which AI provider you want to use for Dockerfile generation.</p>
+      </div>
+    </section>
+
     <!-- Try It — Interactive Terminal -->
     <section id="try-it">
       <h2 class="section-title" data-i18n="tryit.title">Try It Yourself</h2>

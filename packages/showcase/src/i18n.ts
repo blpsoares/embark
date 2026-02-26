@@ -81,6 +81,19 @@ const translations: Record<Language, Record<string, string>> = {
     "examples.left.label": "Netlify + Codex",
     "examples.right.label": "GCP Cloud Run + Claude",
 
+    // AI Setup
+    "aiSetup.title": "AI-Powered Dockerfile Generation",
+    "aiSetup.subtitle": "Choose your favorite AI provider and let it generate optimized Dockerfiles for your apps.",
+    "aiSetup.copilot.name": "Copilot",
+    "aiSetup.copilot.by": "by GitHub",
+    "aiSetup.claude.name": "Claude",
+    "aiSetup.claude.by": "by Anthropic",
+    "aiSetup.codex.name": "Codex",
+    "aiSetup.codex.by": "by OpenAI",
+    "aiSetup.gemini.name": "Gemini",
+    "aiSetup.gemini.by": "by Google",
+    "aiSetup.note": "Install any or all of these CLIs. When you run <code>bun run new-package</code>, Embark will ask which AI provider you want to use for Dockerfile generation.",
+
     // Try It
     "tryit.title": "Try It Yourself",
     "tryit.subtitle": "Simulate the entire pre-commit pipeline. Make choices and see the magic happen.",
@@ -222,9 +235,22 @@ const translations: Record<Language, Record<string, string>> = {
     "examples.left.label": "Netlify + Codex",
     "examples.right.label": "GCP Cloud Run + Claude",
 
+    // AI Setup
+    "aiSetup.title": "Geração de Dockerfiles com IA",
+    "aiSetup.subtitle": "Escolha seu provedor de IA favorito e deixe gerar Dockerfiles otimizados pra seus apps.",
+    "aiSetup.copilot.name": "Copilot",
+    "aiSetup.copilot.by": "do GitHub",
+    "aiSetup.claude.name": "Claude",
+    "aiSetup.claude.by": "da Anthropic",
+    "aiSetup.codex.name": "Codex",
+    "aiSetup.codex.by": "da OpenAI",
+    "aiSetup.gemini.name": "Gemini",
+    "aiSetup.gemini.by": "do Google",
+    "aiSetup.note": "Instale qualquer uma (ou todas) dessas CLIs. Quando você rodar <code>bun run new-package</code>, Embark perguntará qual provedor de IA você quer usar para gerar o Dockerfile.",
+
     // Try It
-    "tryit.title": "Try It Yourself",
-    "tryit.subtitle": "Simulate the entire pre-commit pipeline. Make choices and see the magic happen.",
+    "tryit.title": "Teste Você Mesmo",
+    "tryit.subtitle": "Simule o pipeline completo de pre-commit. Faça escolhas e veja a mágica acontecer.",
 
     // Features
     "features.title": "Funcionalidades",
