@@ -28,6 +28,15 @@ export function initNav(): void {
     });
   });
 
+  // Close menu when language button is clicked
+  const langButtons = document.querySelectorAll(".nav-mobile-lang-toggle .lang-btn");
+  langButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      navToggle?.classList.remove("active");
+      navLinks?.classList.remove("active");
+    });
+  });
+
   // Update active link and nav styling on scroll
   function updateActiveLink(): void {
     let current = "";
