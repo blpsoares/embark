@@ -132,7 +132,7 @@ code {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 9996;
+  z-index: 10000;
   background: rgba(10, 10, 15, 0.4);
   backdrop-filter: blur(20px) saturate(1.2);
   border-bottom: 1px solid rgba(34, 211, 238, 0.1);
@@ -462,12 +462,6 @@ code {
   background: var(--gradient-glow);
   z-index: 9999;
   transition: width 0.1s linear;
-}
-
-@media (max-width: 768px) {
-  #scroll-progress {
-    top: 60px;
-  }
 }
 
 /* Custom Cursor */
