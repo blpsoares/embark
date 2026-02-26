@@ -101,7 +101,17 @@ code {
 
 @media (max-width: 768px) {
   #lang-toggle {
-    display: none;
+    position: relative;
+    top: auto;
+    right: auto;
+    z-index: auto;
+    order: 2;
+    flex: 0 0 auto;
+    padding: 4px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--glass-border);
+    border-radius: 50px;
+    backdrop-filter: blur(16px);
   }
 
   .lang-btn {
@@ -362,16 +372,22 @@ code {
 
   .nav-container {
     padding: 0;
-    gap: 1rem;
+    gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
   }
 
   .nav-logo {
     font-size: 1rem;
     cursor: auto;
+    order: 1;
   }
 
   .nav-toggle {
     display: flex;
+    order: 3;
   }
 
   .nav-links {
@@ -425,38 +441,6 @@ code {
     box-shadow: none;
     transform: none;
     text-shadow: 0 0 8px rgba(34, 211, 238, 0.3);
-  }
-
-  .nav-mobile-lang-toggle {
-    display: flex;
-    justify-content: center;
-    padding: 1rem 0 0.5rem 0;
-    border-top: 1px solid rgba(34, 211, 238, 0.1);
-    margin-top: 0.5rem;
-    gap: 0;
-  }
-
-  .nav-mobile-lang-toggle .lang-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    border: none;
-    border-radius: 50%;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-  }
-
-  .nav-mobile-lang-toggle .lang-btn.active {
-    background: rgba(129, 140, 248, 0.2);
-    box-shadow: 0 0 16px rgba(129, 140, 248, 0.15);
-  }
-
-  .nav-mobile-lang-toggle .lang-btn:hover:not(.active) {
-    background: rgba(255, 255, 255, 0.08);
   }
 }
 
