@@ -55,10 +55,6 @@ code {
 
 /* Language Toggle */
 #lang-toggle {
-  position: fixed;
-  top: 1.25rem;
-  right: 1.25rem;
-  z-index: 9995;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +64,9 @@ code {
   border-radius: 50px;
   padding: 4px;
   backdrop-filter: blur(16px);
-  height: fit-content;
+  z-index: 9995;
+  order: 2;
+  flex: 0 0 auto;
 }
 
 .lang-btn {
@@ -105,12 +103,6 @@ code {
 
 @media (max-width: 768px) {
   #lang-toggle {
-    position: static;
-    top: auto;
-    right: auto;
-    z-index: auto;
-    order: 2;
-    flex: 0 0 auto;
     padding: 3px;
   }
 
