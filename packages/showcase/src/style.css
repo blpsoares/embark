@@ -1795,7 +1795,6 @@ code {
 .get-started-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2.5rem;
 }
 
 @media (max-width: 768px) {
