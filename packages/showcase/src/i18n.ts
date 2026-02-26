@@ -70,6 +70,19 @@ const translations: Record<Language, Record<string, string>> = {
     "features.netlify.title": "Netlify Ready",
     "features.netlify.desc": "Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.",
 
+    // You Stay in Control
+    "control.title": "You Stay in Control",
+    "control.subtitle": "Embark automates the boring parts, but you decide what ships and when.",
+    "control.diagram.changed": 'api <span class="deploy-badge">changed</span>',
+    "control.diagram.unchanged1": 'dashboard <span class="deploy-badge skip">skip</span>',
+    "control.diagram.unchanged2": 'landing <span class="deploy-badge skip">skip</span>',
+    "control.selective.title": "Only What Changed Gets Deployed",
+    "control.selective.desc": "Each package in the monorepo has its own CI/CD pipeline with path filters. When you push, only packages with actual changes are built and deployed. The rest stay untouched. No accidental deploys, no wasted resources.",
+    "control.mixed.title": "Mix Deploy Targets",
+    "control.mixed.desc": "Each package chooses where it deploys. APIs on Cloud Run, frontends on Netlify — in the same monorepo. The framework adapts per package: Docker + workflow for Cloud Run, just a netlify.toml for Netlify.",
+    "control.override.title": "Override Anything",
+    "control.override.desc": 'Manually edited a Dockerfile? Embark won\'t touch it. Custom workflow? Preserved. Every automation respects existing files. You can also set your own deploy target in <code>.embark.json</code> — the framework follows your lead.',
+
     // Architecture
     "arch.title": "Architecture",
     "arch.subtitle": "A clean, opinionated structure. Every file has a purpose.",
@@ -163,6 +176,19 @@ const translations: Record<Language, Record<string, string>> = {
     "features.scaffold.desc": "Um comando, duas perguntas, pronto. A CLI cria a estrutura completa do pacote com config, tipos e entrypoint.",
     "features.netlify.title": "Pronto pro Netlify",
     "features.netlify.desc": "Escolha Netlify na criação — sem Docker, sem workflow. Só um netlify.toml e push. O framework pula o que não precisa.",
+
+    // You Stay in Control
+    "control.title": "Você no Controle",
+    "control.subtitle": "Embark automatiza a parte chata, mas você decide o que publica e quando.",
+    "control.diagram.changed": 'api <span class="deploy-badge">alterado</span>',
+    "control.diagram.unchanged1": 'dashboard <span class="deploy-badge skip">pular</span>',
+    "control.diagram.unchanged2": 'landing <span class="deploy-badge skip">pular</span>',
+    "control.selective.title": "Só o Que Mudou é Publicado",
+    "control.selective.desc": "Cada pacote no monorepo tem seu próprio pipeline CI/CD com filtros de path. Quando você dá push, só pacotes com mudanças reais são buildados e publicados. O resto fica intocado. Sem deploys acidentais, sem recursos desperdiçados.",
+    "control.mixed.title": "Misture Alvos de Deploy",
+    "control.mixed.desc": "Cada pacote escolhe onde faz deploy. APIs no Cloud Run, frontends no Netlify — no mesmo monorepo. O framework se adapta por pacote: Docker + workflow pro Cloud Run, só um netlify.toml pro Netlify.",
+    "control.override.title": "Sobrescreva Qualquer Coisa",
+    "control.override.desc": 'Editou um Dockerfile manualmente? Embark não encosta. Workflow customizado? Preservado. Toda automação respeita arquivos existentes. Você também pode definir seu próprio alvo de deploy no <code>.embark.json</code> — o framework segue sua decisão.',
 
     // Architecture
     "arch.title": "Arquitetura",

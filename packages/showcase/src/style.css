@@ -92,8 +92,10 @@ code {
 }
 
 .lang-flag {
-  font-size: 1.3rem;
-  line-height: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
   pointer-events: none;
 }
 
@@ -110,7 +112,8 @@ code {
   }
 
   .lang-flag {
-    font-size: 1.15rem;
+    width: 20px;
+    height: 20px;
   }
 }
 
@@ -605,6 +608,151 @@ code {
   color: var(--text-dim);
   line-height: 1.6;
   font-size: 0.9rem;
+}
+
+/* ── You Stay in Control ── */
+#control {
+  padding: 8rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.control-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.control-card {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.control-card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.control-card:hover {
+  border-color: var(--accent);
+  background: var(--bg-card-hover);
+  box-shadow: 0 0 40px rgba(129, 140, 248, 0.08);
+}
+
+.control-visual {
+  min-width: 200px;
+  flex-shrink: 0;
+}
+
+.deploy-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.deploy-package {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--glass-border);
+}
+
+.deploy-package.changed {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.deploy-package.unchanged {
+  background: rgba(255, 255, 255, 0.02);
+  color: var(--text-dim);
+}
+
+.deploy-package.cloud-run {
+  background: rgba(129, 140, 248, 0.1);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.deploy-package.netlify-pkg {
+  background: rgba(34, 211, 238, 0.1);
+  border-color: var(--neon-cyan);
+  color: var(--neon-cyan);
+}
+
+.deploy-package.custom-pkg {
+  background: rgba(167, 139, 250, 0.1);
+  border-color: var(--neon-purple);
+  color: var(--neon-purple);
+}
+
+.deploy-badge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(34, 211, 238, 0.2);
+  color: var(--neon-cyan);
+}
+
+.deploy-badge.skip {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-dim);
+}
+
+.deploy-badge.cr {
+  background: rgba(129, 140, 248, 0.2);
+  color: var(--accent);
+}
+
+.deploy-badge.net {
+  background: rgba(34, 211, 238, 0.2);
+  color: var(--neon-cyan);
+}
+
+.deploy-badge.own {
+  background: rgba(167, 139, 250, 0.2);
+  color: var(--neon-purple);
+}
+
+.control-info h3 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.control-info p {
+  font-size: 0.9rem;
+  color: var(--text-dim);
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .control-card {
+    flex-direction: column;
+  }
+
+  .control-visual {
+    min-width: unset;
+    width: 100%;
+  }
 }
 
 /* ── Architecture ── */
