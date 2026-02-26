@@ -106,7 +106,7 @@ describe("cleanup-orphan-workflows", () => {
     it("should delete workflows for netlify packages", async () => {
       await mkdir(join(TEST_PACKAGES_DIR, "my-site"), { recursive: true });
       await writeFile(
-        join(TEST_PACKAGES_DIR, "my-site", ".embark.json"),
+        join(TEST_PACKAGES_DIR, "my-site", ".embark.jsonc"),
         JSON.stringify({ deploy: "netlify" }),
       );
       await writeFile(join(TEST_WORKFLOWS_DIR, "my-site.yml"), "name: my-site");
@@ -121,7 +121,7 @@ describe("cleanup-orphan-workflows", () => {
     it("should keep workflows for cloud-run packages", async () => {
       await mkdir(join(TEST_PACKAGES_DIR, "api"), { recursive: true });
       await writeFile(
-        join(TEST_PACKAGES_DIR, "api", ".embark.json"),
+        join(TEST_PACKAGES_DIR, "api", ".embark.jsonc"),
         JSON.stringify({ deploy: "cloud-run" }),
       );
       await writeFile(join(TEST_WORKFLOWS_DIR, "api.yml"), "name: api");

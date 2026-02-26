@@ -4,12 +4,21 @@ import type { DeployTarget, EmbarkConfig } from "../shared/types/deploy";
 
 export type { DeployTarget, EmbarkConfig };
 
+function stripJsonComments(content: string): string {
+  // Remove single-line comments (// ...)
+  let result = content.replace(/\/\/.*$/gm, "");
+  // Remove multi-line comments (/* ... */)
+  result = result.replace(/\/\*[\s\S]*?\*\//g, "");
+  return result;
+}
+
 export async function readEmbarkConfig(packageDir: string): Promise<EmbarkConfig | null> {
-  const configPath = join(packageDir, ".embark.json");
+  const configPath = join(packageDir, ".embark.jsonc");
   try {
     await access(configPath);
     const content = await readFile(configPath, "utf-8");
-    const config = JSON.parse(content) as EmbarkConfig;
+    const cleanedContent = stripJsonComments(content);
+    const config = JSON.parse(cleanedContent) as EmbarkConfig;
     return config;
   } catch {
     return null;

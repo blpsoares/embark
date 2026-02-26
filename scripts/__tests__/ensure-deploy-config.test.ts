@@ -25,7 +25,7 @@ describe("ensure-deploy-config", () => {
       expect(result).toEqual([]);
     });
 
-    it("should return package names that lack .embark.json", async () => {
+    it("should return package names that lack .embark.jsonc", async () => {
       await mkdir(join(TEST_DIR, "my-app"), { recursive: true });
       await mkdir(join(TEST_DIR, "my-api"), { recursive: true });
 
@@ -35,10 +35,10 @@ describe("ensure-deploy-config", () => {
       expect(result).toHaveLength(2);
     });
 
-    it("should not return packages that have .embark.json", async () => {
+    it("should not return packages that have .embark.jsonc", async () => {
       await mkdir(join(TEST_DIR, "has-config"), { recursive: true });
       await writeFile(
-        join(TEST_DIR, "has-config", ".embark.json"),
+        join(TEST_DIR, "has-config", ".embark.jsonc"),
         JSON.stringify({ deploy: "cloud-run" }),
       );
 
@@ -51,13 +51,13 @@ describe("ensure-deploy-config", () => {
     it("should return empty when all packages have config", async () => {
       await mkdir(join(TEST_DIR, "pkg-a"), { recursive: true });
       await writeFile(
-        join(TEST_DIR, "pkg-a", ".embark.json"),
+        join(TEST_DIR, "pkg-a", ".embark.jsonc"),
         JSON.stringify({ deploy: "netlify" }),
       );
 
       await mkdir(join(TEST_DIR, "pkg-b"), { recursive: true });
       await writeFile(
-        join(TEST_DIR, "pkg-b", ".embark.json"),
+        join(TEST_DIR, "pkg-b", ".embark.jsonc"),
         JSON.stringify({ deploy: "other" }),
       );
 
