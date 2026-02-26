@@ -112,7 +112,7 @@
           <div class="stat-detail" data-i18n="why.stat2.detail">Pre-push hooks guarantee quality</div>
         </div>
         <div class="stat-card">
-          <div class="stat-number" data-target="5">0</div>
+          <div class="stat-number" data-target="7">0</div>
           <div class="stat-label" data-i18n="why.stat3.label">Pre-commit automations</div>
           <div class="stat-detail" data-i18n="why.stat3.detail">Everything runs before you even push</div>
         </div>
@@ -120,6 +120,29 @@
           <div class="stat-number" data-target="4">0</div>
           <div class="stat-label" data-i18n="why.stat4.label">AI CLIs supported</div>
           <div class="stat-detail" data-i18n="why.stat4.detail">Gemini, Claude, Copilot, Codex</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Developer Experience -->
+    <section id="developer-experience">
+      <h2 class="section-title" data-i18n="devexp.title">Built for Developers, Powered by AI</h2>
+      <p class="section-subtitle" data-i18n="devexp.subtitle">The perfect blend of automation and control.</p>
+      <div class="devexp-grid">
+        <div class="devexp-card">
+          <div class="devexp-icon">🤖</div>
+          <h3 data-i18n="devexp.ai.title">AI as Your Sidekick</h3>
+          <p data-i18n="devexp.ai.desc">Let AI generate Dockerfiles, boilerplate, and configs while you focus on building features. You stay in control—every generated file is readable and editable.</p>
+        </div>
+        <div class="devexp-card">
+          <div class="devexp-icon">📦</div>
+          <h3 data-i18n="devexp.embed.title">Embed Anywhere</h3>
+          <p data-i18n="devexp.embed.desc">Deploy frontend packages to Netlify or any static host. Then embed them anywhere—dashboards, wikis, intranets—via simple <code>&lt;iframe&gt;</code> tags. Publish once, use everywhere.</p>
+        </div>
+        <div class="devexp-card">
+          <div class="devexp-icon">⚡</div>
+          <h3 data-i18n="devexp.pleasure.title">Pleasure + Utility</h3>
+          <p data-i18n="devexp.pleasure.desc">Work with a beautiful, fast framework that doesn't get in your way. Ship faster, sleep better, spend Friday on what actually matters—not debugging YAML or wrestling Docker.</p>
         </div>
       </div>
     </section>
@@ -178,6 +201,14 @@
       <p class="section-subtitle" data-i18n="commit.subtitle">Every <code>git commit</code> triggers a pipeline of automations. No config required.</p>
       <div class="pipeline">
         <div class="pipeline-step" data-step="1">
+          <div class="pipeline-icon">⚙️</div>
+          <div class="pipeline-info">
+            <h3 data-i18n="commit.step0.title">Ensure Deploy Config</h3>
+            <p data-i18n="commit.step0.desc">Detects packages without <code>.embark.json</code> and asks you to choose a deploy target: Cloud Run, Netlify, or Other.</p>
+          </div>
+        </div>
+        <div class="pipeline-connector"></div>
+        <div class="pipeline-step" data-step="2">
           <div class="pipeline-icon">🔧</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step1.title">Generate Workflows</h3>
@@ -185,7 +216,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="2">
+        <div class="pipeline-step" data-step="3">
           <div class="pipeline-icon">🔄</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step2.title">Sync Workflows</h3>
@@ -193,7 +224,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="3">
+        <div class="pipeline-step" data-step="4">
           <div class="pipeline-icon">🧹</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step3.title">Cleanup Orphans</h3>
@@ -201,7 +232,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="4">
+        <div class="pipeline-step" data-step="5">
           <div class="pipeline-icon">🐳</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step4.title">Generate Dockerfiles</h3>
@@ -209,7 +240,7 @@
           </div>
         </div>
         <div class="pipeline-connector"></div>
-        <div class="pipeline-step" data-step="5">
+        <div class="pipeline-step" data-step="6">
           <div class="pipeline-icon">📄</div>
           <div class="pipeline-info">
             <h3 data-i18n="commit.step5.title">Update README</h3>
@@ -254,6 +285,11 @@
           <h3 data-i18n="features.netlify.title">Netlify Ready</h3>
           <p data-i18n="features.netlify.desc">Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.</p>
         </div>
+        <div class="feature-card" data-tilt>
+          <div class="feature-icon">🔌</div>
+          <h3 data-i18n="features.other.title">Bring Your Own Infra</h3>
+          <p data-i18n="features.other.desc">Deploy to Vercel, Fly.io, AWS, or anywhere else. Set deploy to "other" and Embark skips workflows and Dockerfiles — you handle the rest.</p>
+        </div>
       </div>
     </section>
 
@@ -280,7 +316,7 @@
             <div class="deploy-diagram">
               <div class="deploy-package cloud-run">auth-api <span class="deploy-badge cr">Cloud Run</span></div>
               <div class="deploy-package netlify-pkg">landing <span class="deploy-badge net">Netlify</span></div>
-              <div class="deploy-package cloud-run">payments <span class="deploy-badge cr">Cloud Run</span></div>
+              <div class="deploy-package other-pkg" data-i18n="control.diagram.other">worker <span class="deploy-badge other">Other</span></div>
             </div>
           </div>
           <div class="control-info">

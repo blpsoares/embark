@@ -1,7 +1,7 @@
 import { readFile, access } from "node:fs/promises";
 import { join } from "node:path";
 
-export type DeployTarget = "cloud-run" | "netlify";
+export type DeployTarget = "cloud-run" | "netlify" | "other";
 
 interface EmbarkConfig {
   deploy?: DeployTarget;
@@ -26,4 +26,14 @@ export async function getDeployTarget(packageDir: string): Promise<DeployTarget>
 export async function isNetlifyPackage(packageDir: string): Promise<boolean> {
   const target = await getDeployTarget(packageDir);
   return target === "netlify";
+}
+
+export async function isExternalDeploy(packageDir: string): Promise<boolean> {
+  const target = await getDeployTarget(packageDir);
+  return target === "netlify" || target === "other";
+}
+
+export async function hasEmbarkConfig(packageDir: string): Promise<boolean> {
+  const config = await readEmbarkConfig(packageDir);
+  return config !== null;
 }

@@ -1,2 +1,5 @@
 [test]
 coverageThreshold = 0.70
+
+[install]
+linker = "hoisted"

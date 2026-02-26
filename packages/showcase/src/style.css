@@ -618,6 +618,78 @@ code {
   font-size: 0.9rem;
 }
 
+/* Developer Experience Section */
+#developer-experience {
+  background: linear-gradient(135deg, rgba(129, 140, 248, 0.05) 0%, rgba(34, 211, 238, 0.05) 100%);
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  padding: 6rem 2rem;
+}
+
+.devexp-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (max-width: 900px) {
+  .devexp-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .devexp-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.devexp-card {
+  background: var(--bg-card);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 2rem;
+  backdrop-filter: blur(10px);
+  transition: all 0.4s ease;
+  text-align: center;
+}
+
+.devexp-card:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--accent);
+  box-shadow: 0 0 40px rgba(129, 140, 248, 0.15);
+  transform: translateY(-4px);
+}
+
+.devexp-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.devexp-card h3 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  color: var(--text);
+}
+
+.devexp-card p {
+  color: var(--text-dim);
+  line-height: 1.6;
+  font-size: 0.9rem;
+}
+
+.devexp-card code {
+  background: rgba(129, 140, 248, 0.1);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  color: var(--accent);
+  font-size: 0.85rem;
+}
+
 /* ── You Stay in Control ── */
 #control {
   padding: 8rem 2rem;
@@ -737,6 +809,15 @@ code {
 .deploy-badge.own {
   background: rgba(167, 139, 250, 0.2);
   color: var(--neon-purple);
+}
+
+.deploy-badge.other {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+}
+
+.deploy-package.other-pkg {
+  border-color: rgba(251, 191, 36, 0.3);
 }
 
 .control-info h3 {

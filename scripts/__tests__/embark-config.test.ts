@@ -2,7 +2,7 @@ import { describe, it, expect, beforeEach, afterEach } from "bun:test";
 import { mkdir, writeFile } from "node:fs/promises";
 import { rmSync } from "node:fs";
 import { join } from "node:path";
-import { readEmbarkConfig, getDeployTarget, isNetlifyPackage } from "../embark-config";
+import { readEmbarkConfig, getDeployTarget, isNetlifyPackage, isExternalDeploy, hasEmbarkConfig } from "../embark-config";
 
 const TEST_DIR = join(import.meta.dirname, "../..", ".test-embark-config");
 
@@ -88,6 +88,56 @@ describe("embark-config", () => {
       );
       const result = await isNetlifyPackage(TEST_DIR);
       expect(result).toBe(false);
+    });
+  });
+
+  describe("isExternalDeploy", () => {
+    it("should return false when no config exists", async () => {
+      const result = await isExternalDeploy(TEST_DIR);
+      expect(result).toBe(false);
+    });
+
+    it("should return true for netlify packages", async () => {
+      await writeFile(
+        join(TEST_DIR, ".embark.json"),
+        JSON.stringify({ deploy: "netlify" }),
+      );
+      const result = await isExternalDeploy(TEST_DIR);
+      expect(result).toBe(true);
+    });
+
+    it("should return true for other packages", async () => {
+      await writeFile(
+        join(TEST_DIR, ".embark.json"),
+        JSON.stringify({ deploy: "other" }),
+      );
+      const result = await isExternalDeploy(TEST_DIR);
+      expect(result).toBe(true);
+    });
+
+    it("should return false for cloud-run packages", async () => {
+      await writeFile(
+        join(TEST_DIR, ".embark.json"),
+        JSON.stringify({ deploy: "cloud-run" }),
+      );
+      const result = await isExternalDeploy(TEST_DIR);
+      expect(result).toBe(false);
+    });
+  });
+
+  describe("hasEmbarkConfig", () => {
+    it("should return false when no config exists", async () => {
+      const result = await hasEmbarkConfig(TEST_DIR);
+      expect(result).toBe(false);
+    });
+
+    it("should return true when config exists", async () => {
+      await writeFile(
+        join(TEST_DIR, ".embark.json"),
+        JSON.stringify({ deploy: "cloud-run" }),
+      );
+      const result = await hasEmbarkConfig(TEST_DIR);
+      expect(result).toBe(true);
     });
   });
 });

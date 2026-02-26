@@ -37,6 +37,7 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .test-cleanup
 .test-sync
 .test-embark-config
+.test-ensure-deploy
 
 # claude
 .claude

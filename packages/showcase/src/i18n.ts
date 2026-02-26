@@ -27,6 +27,16 @@ const translations: Record<Language, Record<string, string>> = {
     // Why Embark
     "why.title": "Why Embark?",
     "why.subtitle": "Stop configuring. Start shipping. Embark handles the boring stuff so you can focus on building.",
+
+    // Developer Experience
+    "devexp.title": "Built for Developers, Powered by AI",
+    "devexp.subtitle": "The perfect blend of automation and control.",
+    "devexp.ai.title": "AI as Your Sidekick",
+    "devexp.ai.desc": "Let AI generate Dockerfiles, boilerplate, and configs while you focus on building features. You stay in control—every generated file is readable and editable.",
+    "devexp.embed.title": "Embed Anywhere",
+    "devexp.embed.desc": 'Deploy frontend packages to Netlify or any static host. Then embed them anywhere—dashboards, wikis, intranets—via simple <code>&lt;iframe&gt;</code> tags. Publish once, use everywhere.',
+    "devexp.pleasure.title": "Pleasure + Utility",
+    "devexp.pleasure.desc": "Work with a beautiful, fast framework that doesn't get in your way. Ship faster, sleep better, spend Friday on what actually matters—not debugging YAML or wrestling Docker.",
     "why.stat1.label": "Lines of CI/CD config",
     "why.stat1.detail": "Workflows are auto-generated",
     "why.stat2.label": "% test coverage enforced",
@@ -43,6 +53,8 @@ const translations: Record<Language, Record<string, string>> = {
     // What Happens on Commit
     "commit.title": "What Happens on Commit",
     "commit.subtitle": "Every <code>git commit</code> triggers a pipeline of automations. No config required.",
+    "commit.step0.title": "Ensure Deploy Config",
+    "commit.step0.desc": "Detects packages without <code>.embark.json</code> and asks you to choose a deploy target: Cloud Run, Netlify, or Other.",
     "commit.step1.title": "Generate Workflows",
     "commit.step1.desc": "Scans <code>packages/</code> and creates a GitHub Actions workflow for each new package using the template.",
     "commit.step2.title": "Sync Workflows",
@@ -69,6 +81,8 @@ const translations: Record<Language, Record<string, string>> = {
     "features.scaffold.desc": "One command, two questions, done. The CLI creates the full package structure with config, types, and entrypoint.",
     "features.netlify.title": "Netlify Ready",
     "features.netlify.desc": "Choose Netlify at setup — no Docker, no workflow. Just a netlify.toml and push. The framework skips what you don't need.",
+    "features.other.title": "Bring Your Own Infra",
+    "features.other.desc": 'Deploy to Vercel, Fly.io, AWS, or anywhere else. Set deploy to "other" and Embark skips workflows and Dockerfiles — you handle the rest.',
 
     // You Stay in Control
     "control.title": "You Stay in Control",
@@ -78,8 +92,9 @@ const translations: Record<Language, Record<string, string>> = {
     "control.diagram.unchanged2": 'landing <span class="deploy-badge skip">skip</span>',
     "control.selective.title": "Only What Changed Gets Deployed",
     "control.selective.desc": "Each package in the monorepo has its own CI/CD pipeline with path filters. When you push, only packages with actual changes are built and deployed. The rest stay untouched. No accidental deploys, no wasted resources.",
+    "control.diagram.other": 'worker <span class="deploy-badge other">Other</span>',
     "control.mixed.title": "Mix Deploy Targets",
-    "control.mixed.desc": "Each package chooses where it deploys. APIs on Cloud Run, frontends on Netlify — in the same monorepo. The framework adapts per package: Docker + workflow for Cloud Run, just a netlify.toml for Netlify.",
+    "control.mixed.desc": "Each package chooses where it deploys. APIs on Cloud Run, frontends on Netlify, custom infra elsewhere — all in the same monorepo. Set the target in <code>.embark.json</code> and the framework adapts per package.",
     "control.override.title": "Override Anything",
     "control.override.desc": 'Manually edited a Dockerfile? Embark won\'t touch it. Custom workflow? Preserved. Every automation respects existing files. You can also set your own deploy target in <code>.embark.json</code> — the framework follows your lead.',
 
@@ -134,6 +149,16 @@ const translations: Record<Language, Record<string, string>> = {
     // Why Embark
     "why.title": "Por que Embark?",
     "why.subtitle": "Pare de configurar. Comece a publicar. Embark cuida da parte chata pra você focar em construir.",
+
+    // Developer Experience
+    "devexp.title": "Feito para Devs, Potencializado por IA",
+    "devexp.subtitle": "O equilíbrio perfeito entre automação e controle.",
+    "devexp.ai.title": "IA como Seu Assistente",
+    "devexp.ai.desc": "Deixe a IA gerar Dockerfiles, boilerplate e configs enquanto você foca em features. Você tem controle—todo arquivo gerado é legível e editável.",
+    "devexp.embed.title": "Embed em Qualquer Lugar",
+    "devexp.embed.desc": 'Deploy de pacotes frontend pro Netlify ou qualquer host estático. Depois embed em qualquer lugar—dashboards, wikis, intranets—via simples tags <code>&lt;iframe&gt;</code>. Publica uma vez, usa em todo lugar.',
+    "devexp.pleasure.title": "Prazer + Utilidade",
+    "devexp.pleasure.desc": "Trabalhe com um framework bonito e rápido que não atrapalha. Publica mais rápido, dorme melhor, gasta sexta em coisas que importam—não debugando YAML ou lutando com Docker.",
     "why.stat1.label": "Linhas de config CI/CD",
     "why.stat1.detail": "Workflows são auto-gerados",
     "why.stat2.label": "% de cobertura exigida",
@@ -150,6 +175,8 @@ const translations: Record<Language, Record<string, string>> = {
     // What Happens on Commit
     "commit.title": "O Que Acontece no Commit",
     "commit.subtitle": "Cada <code>git commit</code> dispara um pipeline de automações. Nenhuma config necessária.",
+    "commit.step0.title": "Garantir Config de Deploy",
+    "commit.step0.desc": "Detecta pacotes sem <code>.embark.json</code> e pergunta o alvo de deploy: Cloud Run, Netlify ou Other.",
     "commit.step1.title": "Gerar Workflows",
     "commit.step1.desc": "Escaneia <code>packages/</code> e cria um workflow do GitHub Actions para cada novo pacote usando o template.",
     "commit.step2.title": "Sincronizar Workflows",
@@ -176,6 +203,8 @@ const translations: Record<Language, Record<string, string>> = {
     "features.scaffold.desc": "Um comando, duas perguntas, pronto. A CLI cria a estrutura completa do pacote com config, tipos e entrypoint.",
     "features.netlify.title": "Pronto pro Netlify",
     "features.netlify.desc": "Escolha Netlify na criação — sem Docker, sem workflow. Só um netlify.toml e push. O framework pula o que não precisa.",
+    "features.other.title": "Traga Sua Infra",
+    "features.other.desc": 'Deploy no Vercel, Fly.io, AWS ou qualquer outro lugar. Defina deploy como "other" e o Embark pula workflows e Dockerfiles — você cuida do resto.',
 
     // You Stay in Control
     "control.title": "Você no Controle",
@@ -185,8 +214,9 @@ const translations: Record<Language, Record<string, string>> = {
     "control.diagram.unchanged2": 'landing <span class="deploy-badge skip">pular</span>',
     "control.selective.title": "Só o Que Mudou é Publicado",
     "control.selective.desc": "Cada pacote no monorepo tem seu próprio pipeline CI/CD com filtros de path. Quando você dá push, só pacotes com mudanças reais são buildados e publicados. O resto fica intocado. Sem deploys acidentais, sem recursos desperdiçados.",
+    "control.diagram.other": 'worker <span class="deploy-badge other">Other</span>',
     "control.mixed.title": "Misture Alvos de Deploy",
-    "control.mixed.desc": "Cada pacote escolhe onde faz deploy. APIs no Cloud Run, frontends no Netlify — no mesmo monorepo. O framework se adapta por pacote: Docker + workflow pro Cloud Run, só um netlify.toml pro Netlify.",
+    "control.mixed.desc": "Cada pacote escolhe onde faz deploy. APIs no Cloud Run, frontends no Netlify, infra custom em outro lugar — tudo no mesmo monorepo. Defina o alvo no <code>.embark.json</code> e o framework se adapta por pacote.",
     "control.override.title": "Sobrescreva Qualquer Coisa",
     "control.override.desc": 'Editou um Dockerfile manualmente? Embark não encosta. Workflow customizado? Preservado. Toda automação respeita arquivos existentes. Você também pode definir seu próprio alvo de deploy no <code>.embark.json</code> — o framework segue sua decisão.',
 

@@ -1,8 +1,6 @@
 <p align="center">
-  <img src=".github/logo.png" alt="Embark" width="200" />
+  <img src=".github/logo.png" alt="Embark" width="300" />
 </p>
-
-<h1 align="center">Embark</h1>
 
 <p align="center">
   Ship <strong>vibe-coded apps</strong> with zero-config CI/CD, Docker, and Cloud Run deployment.
@@ -15,7 +13,7 @@
   ![bun](https://img.shields.io/badge/Bun-1.3.9-f9f1e1?style=for-the-badge&logo=bun&logoColor=black)
   ![typescript](https://img.shields.io/badge/TypeScript-strict-3178c6?style=for-the-badge&logo=typescript&logoColor=white)
   ![license](https://img.shields.io/badge/license-MIT-22d3ee?style=for-the-badge)
-  ![tests](https://img.shields.io/badge/tests-106%20passing-28c840?style=for-the-badge)
+  ![tests](https://img.shields.io/badge/tests-117%20passing-28c840?style=for-the-badge)
   ![coverage](https://img.shields.io/badge/coverage-77%25-a78bfa?style=for-the-badge)
 </p>
 
@@ -29,8 +27,11 @@ A monorepo framework that automates everything between **code** and **production
 
 - **One push ≠ deploy everything** — Only packages with actual changes are built and deployed. The rest stay untouched.
 - **Each package = its own pipeline** — Every package gets a dedicated GitHub Actions workflow with path filters.
-- **Choose your infra** — Cloud Run with auto-generated Docker + CI/CD, or Netlify with just a config file. Per package.
+- **Choose your infra** — Cloud Run with auto-generated Docker + CI/CD, Netlify with just a config file, or bring your own. Per package.
 - **Zero config** — Workflows, Dockerfiles, and README are auto-generated on commit. You just write code.
+- **AI-Powered setup** — Connect your favorite AI (Claude, Gemini, Copilot) to auto-generate Dockerfiles tailored to your stack.
+- **Embed anywhere** — Deploy frontend packages to Netlify or static hosts and embed them via `<iframe>` in any system, site, or dashboard.
+- **Dev + AI teamwork** — Code with your team while AI handles boilerplate, tests, and deployment pipelines. Stay in control.
 
 ## Stack
 
@@ -100,7 +101,16 @@ No workflow, no Dockerfile. Just a `netlify.toml`. Connect the repo on Netlify a
 { "deploy": "netlify" }
 ```
 
-You can **mix both** in the same monorepo — APIs on Cloud Run, frontends on Netlify.
+### Other (custom)
+
+For packages deployed elsewhere (Vercel, Fly.io, AWS, etc.). No workflow, no Dockerfile — you manage your own pipeline.
+
+```json
+// .embark.json
+{ "deploy": "other" }
+```
+
+You can **mix all three** in the same monorepo — APIs on Cloud Run, frontends on Netlify, custom infra elsewhere.
 
 ## Pre-commit Hooks
 
@@ -108,12 +118,13 @@ On `git commit`, these scripts run automatically:
 
 | Order | Script | What it does |
 |-------|--------|-------------|
-| 1 | `generate-workflows.ts` | Creates GitHub Actions workflow for new packages |
-| 2 | `sync-workflows.ts` | Syncs existing workflows with template |
-| 3 | `cleanup-orphan-workflows.ts` | Removes workflows for deleted/netlify packages |
-| 4 | `generate-dockerfiles-ai.ts` | Generates Dockerfiles (AI or default) |
-| 5 | `update-readme-packages.ts` | Updates the packages table below |
-| 6 | `update-version-badge.ts` | Syncs version badge in README |
+| 1 | `ensure-deploy-config.ts` | Asks deploy target for packages missing `.embark.json` |
+| 2 | `generate-workflows.ts` | Creates GitHub Actions workflow for new packages |
+| 3 | `sync-workflows.ts` | Syncs existing workflows with template |
+| 4 | `cleanup-orphan-workflows.ts` | Removes workflows for deleted/external packages |
+| 5 | `generate-dockerfiles-ai.ts` | Generates Dockerfiles (AI or default) |
+| 6 | `update-readme-packages.ts` | Updates the packages table below |
+| 7 | `update-version-badge.ts` | Syncs version badge in README |
 
 ## Pre-push Hooks
 
@@ -128,6 +139,7 @@ embark/
 ├── scripts/                   # monorepo automations
 │   ├── create-package.ts      # interactive CLI to create packages
 │   ├── embark-config.ts       # shared deploy config reader
+│   ├── ensure-deploy-config.ts # interactive prompt for missing .embark.json
 │   ├── generate-workflows.ts  # auto GitHub Actions per package
 │   ├── generate-dockerfiles.ts # default Dockerfile generation
 │   ├── generate-dockerfiles-ai.ts # AI-powered Dockerfile generation

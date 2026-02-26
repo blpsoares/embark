@@ -1,7 +1,7 @@
 import { readdir, readFile, writeFile, mkdir, access } from "node:fs/promises";
 import { execSync } from "node:child_process";
 import { join } from "node:path";
-import { isNetlifyPackage } from "./embark-config";
+import { isExternalDeploy } from "./embark-config";
 
 const ROOT = join(import.meta.dirname, "..");
 const PACKAGES_DIR = join(ROOT, "packages");
@@ -69,8 +69,8 @@ async function generateWorkflows() {
   const packages: string[] = [];
   for (const pkg of allPackages) {
     const pkgDir = join(PACKAGES_DIR, pkg);
-    if (await isNetlifyPackage(pkgDir)) {
-      console.log(`[generate-workflows] ${pkg}: netlify deploy, skipping workflow`);
+    if (await isExternalDeploy(pkgDir)) {
+      console.log(`[generate-workflows] ${pkg}: external deploy, skipping workflow`);
       continue;
     }
     packages.push(pkg);

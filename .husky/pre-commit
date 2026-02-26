@@ -1,3 +1,4 @@
+bun run scripts/ensure-deploy-config.ts
 bun run scripts/generate-workflows.ts
 bun run scripts/sync-workflows.ts
 bun run scripts/cleanup-orphan-workflows.ts
